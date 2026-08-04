@@ -5,15 +5,16 @@ const SEED_FILE = path.join(__dirname, '..', 'data', 'database.json');
 const DEFAULT_DB_FILE = path.join(__dirname, '..', 'data', 'database.local.json');
 
 function getDbPath() {
-  const envPath = process.env.DATABASE_FILE;
-  if (envPath) {
-    return path.isAbsolute(envPath) ? envPath : path.join(process.cwd(), envPath);
-  }
-
-  // Railway persistent volume (survives redeploys). Without this, data is lost on every deploy.
+  // Prefer Railway volume FIRST. A mis-set DATABASE_FILE like ./data/database.wipe.json
+  // must never override the persistent mount, or every redeploy wipes production data.
   const volumeMount = process.env.RAILWAY_VOLUME_MOUNT_PATH;
   if (volumeMount) {
     return path.join(volumeMount, 'database.json');
+  }
+
+  const envPath = process.env.DATABASE_FILE;
+  if (envPath) {
+    return path.isAbsolute(envPath) ? envPath : path.join(process.cwd(), envPath);
   }
 
   return DEFAULT_DB_FILE;

@@ -4,12 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Oporto Residencial</title>
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('oporto-theme');
+        var theme = saved === 'dark' || saved === 'light'
+          ? saved
+          : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
   <div id="app">
     <!-- Login -->
     <section id="login-view" class="view">
+      <button type="button" id="theme-toggle-login" class="theme-toggle theme-toggle-floating" aria-label="Cambiar tema" title="Cambiar tema">
+        <span class="theme-icon theme-icon-dark" aria-hidden="true">☾</span>
+        <span class="theme-icon theme-icon-light" aria-hidden="true">☀</span>
+      </button>
       <div class="login-card">
         <h1>Oporto Residencial</h1>
         <p class="subtitle">Gestión de conjunto residencial</p>
@@ -99,6 +116,10 @@
           </div>
         </div>
         <div class="header-actions">
+          <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" title="Cambiar tema">
+            <span class="theme-icon theme-icon-dark" aria-hidden="true">☾</span>
+            <span class="theme-icon theme-icon-light" aria-hidden="true">☀</span>
+          </button>
           <div class="notif-wrap">
             <button type="button" id="notif-bell" class="notif-bell" aria-label="Notificaciones" title="Notificaciones">
               <span class="notif-bell-icon" aria-hidden="true">🔔</span>

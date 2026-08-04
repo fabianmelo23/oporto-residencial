@@ -12,9 +12,43 @@
   let reservationCalendar = { year: 0, month: 0, booked: {} };
   let visitCalendar = { year: 0, month: 0, booked: {} };
   const SYNC_POLL_MS = 4000;
+  const THEME_KEY = 'oporto-theme';
 
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => document.querySelectorAll(sel);
+
+  function getPreferredTheme() {
+    try {
+      const saved = localStorage.getItem(THEME_KEY);
+      if (saved === 'dark' || saved === 'light') return saved;
+    } catch { /* ignore */ }
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  function applyTheme(theme) {
+    const next = theme === 'dark' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem(THEME_KEY, next); } catch { /* ignore */ }
+    $$('.theme-toggle').forEach((btn) => {
+      btn.setAttribute('aria-label', next === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro');
+      btn.title = next === 'dark' ? 'Tema oscuro · clic para claro' : 'Tema claro · clic para oscuro';
+    });
+  }
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || getPreferredTheme();
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  }
+
+  function bindThemeToggle() {
+    applyTheme(getPreferredTheme());
+    ['#theme-toggle', '#theme-toggle-login'].forEach((sel) => {
+      const btn = $(sel);
+      if (!btn || btn.dataset.bound) return;
+      btn.dataset.bound = '1';
+      btn.addEventListener('click', toggleTheme);
+    });
+  }
 
   async function api(method, path, body) {
     const opts = {
@@ -2835,6 +2869,7 @@
   }
 
   // Init
+  bindThemeToggle();
   bindDeliverModalEvents();
   bindMediaPreviewModal();
   bindPasswordChangeModal();

@@ -71,6 +71,10 @@
           </ul>
         </aside>
       </div>
+      <footer class="app-footer app-footer-login">
+        <p>© <span data-year></span> Oporto Residencial. Todos los derechos reservados.</p>
+        <button type="button" class="footer-link" data-open-privacy>Tratamiento de datos personales</button>
+      </footer>
     </section>
 
     <!-- First-login password gate -->
@@ -176,6 +180,10 @@
       </nav>
 
       <main id="content"></main>
+      <footer class="app-footer">
+        <p>© <span data-year></span> Oporto Residencial. Todos los derechos reservados.</p>
+        <button type="button" class="footer-link" data-open-privacy>Tratamiento de datos personales</button>
+      </footer>
     </section>
 
     <div id="admin-resident-password-modal" class="modal hidden" role="dialog" aria-labelledby="admin-resident-password-title">
@@ -388,6 +396,34 @@
             <button type="submit" class="btn btn-primary">Registrar visita</button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="privacy-modal" class="modal privacy-modal hidden" role="dialog" aria-labelledby="privacy-modal-title" aria-modal="true">
+    <div class="modal-backdrop" data-privacy-backdrop></div>
+    <div class="modal-card privacy-modal-card">
+      <div class="privacy-modal-head">
+        <h3 id="privacy-modal-title">Tratamiento de datos personales</h3>
+      </div>
+      <div class="privacy-modal-body">
+        <p><strong>Responsable:</strong> Oporto Residencial (Administración de la copropiedad), a través de esta plataforma de gestión residencial.</p>
+        <p>En cumplimiento de la <strong>Ley 1581 de 2012</strong>, el Decreto 1377 de 2013 y demás normas aplicables en Colombia, le informamos que sus datos personales serán recolectados, almacenados, usados y circulados para las siguientes finalidades:</p>
+        <ul>
+          <li>Gestión administrativa, operativa y de convivencia del conjunto.</li>
+          <li>Control de acceso, seguridad, visitas, correspondencia y reservas de zonas comunes.</li>
+          <li>Comunicación institucional (anuncios, notificaciones y novedades del conjunto).</li>
+          <li>Atención de solicitudes, PQRS y cumplimiento de obligaciones legales.</li>
+          <li>Registro de auditoría y trazabilidad de operaciones en la plataforma.</li>
+        </ul>
+        <p>Podrán tratarse datos de identificación, contacto, unidad residencial, visitantes, vehículos, mascotas, firmas, imágenes y demás información que usted o terceros autorizados registren en el sistema.</p>
+        <p><strong>Derechos del titular:</strong> conocer, actualizar, rectificar y suprimir sus datos; solicitar prueba de la autorización; ser informado sobre el uso de sus datos; presentar quejas ante la Superintendencia de Industria y Comercio (SIC); y revocar la autorización cuando proceda conforme a la ley.</p>
+        <p>Para ejercer estos derechos, comuníquese con la administración del conjunto a través de los canales oficiales de la copropiedad.</p>
+        <p class="privacy-note">Al continuar, usted declara haber leído este aviso y autoriza el tratamiento de sus datos personales conforme a las finalidades indicadas.</p>
+      </div>
+      <div class="privacy-modal-actions btn-group modal-actions">
+        <button type="button" class="btn btn-secondary hidden" id="privacy-close-btn">Cerrar</button>
+        <button type="button" class="btn btn-primary" id="privacy-accept-btn">He leído y acepto</button>
       </div>
     </div>
   </div>

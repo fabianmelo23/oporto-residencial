@@ -894,6 +894,61 @@
       bindNotificationUi();
       refreshNotifications();
     }
+
+    openPrivacyNotice({ requireAccept: true });
+  }
+
+  let privacyRequireAccept = false;
+
+  function openPrivacyNotice(options = {}) {
+    const { requireAccept = false } = options;
+    privacyRequireAccept = requireAccept;
+    const modal = $('#privacy-modal');
+    const acceptBtn = $('#privacy-accept-btn');
+    const closeBtn = $('#privacy-close-btn');
+    if (!modal) return;
+    if (requireAccept) {
+      if (acceptBtn) show(acceptBtn);
+      if (closeBtn) hide(closeBtn);
+    } else {
+      if (acceptBtn) hide(acceptBtn);
+      if (closeBtn) show(closeBtn);
+    }
+    show(modal);
+  }
+
+  function closePrivacyNotice() {
+    hide($('#privacy-modal'));
+    privacyRequireAccept = false;
+  }
+
+  function bindPrivacyNotice() {
+    const modal = $('#privacy-modal');
+    if (!modal || modal.dataset.bound) return;
+    modal.dataset.bound = '1';
+
+    const acceptBtn = $('#privacy-accept-btn');
+    if (acceptBtn) {
+      acceptBtn.addEventListener('click', () => closePrivacyNotice());
+    }
+    const closeBtn = $('#privacy-close-btn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        if (!privacyRequireAccept) closePrivacyNotice();
+      });
+    }
+    const backdrop = $('[data-privacy-backdrop]');
+    if (backdrop) {
+      backdrop.addEventListener('click', () => {
+        if (!privacyRequireAccept) closePrivacyNotice();
+      });
+    }
+    $$('[data-open-privacy]').forEach((btn) => {
+      btn.addEventListener('click', () => openPrivacyNotice({ requireAccept: false }));
+    });
+    $$('[data-year]').forEach((el) => {
+      el.textContent = String(new Date().getFullYear());
+    });
   }
 
   function closeMobileNav() {
@@ -2870,6 +2925,7 @@
 
   // Init
   bindThemeToggle();
+  bindPrivacyNotice();
   bindDeliverModalEvents();
   bindMediaPreviewModal();
   bindPasswordChangeModal();

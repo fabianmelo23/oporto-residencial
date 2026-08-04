@@ -1992,3 +1992,128 @@ html[data-theme="dark"] .theme-icon-light {
 .nav-backdrop {
   background: var(--overlay);
 }
+
+/* Footer */
+#login-view {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#login-view .login-card {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+#main-view {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#main-view #content {
+  flex: 1;
+}
+
+.app-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem 1rem;
+  padding: .85rem 1rem;
+  border-top: 1px solid var(--border);
+  background: var(--card);
+  color: var(--muted);
+  font-size: .78rem;
+  text-align: center;
+}
+
+.app-footer p {
+  margin: 0;
+}
+
+.app-footer-login {
+  margin-top: auto;
+}
+
+.footer-link {
+  border: none;
+  background: none;
+  color: var(--primary);
+  font: inherit;
+  font-size: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.footer-link:hover {
+  color: var(--primary-dark);
+}
+
+/* Privacy / data treatment modal */
+.privacy-modal-card {
+  width: min(100%, 36rem);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+
+.privacy-modal-head {
+  padding: 1rem 1.15rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.privacy-modal-head h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.privacy-modal-body {
+  padding: 1rem 1.15rem;
+  overflow-y: auto;
+  font-size: .875rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.privacy-modal-body p {
+  margin: 0 0 .75rem;
+}
+
+.privacy-modal-body ul {
+  margin: 0 0 .75rem 1.1rem;
+  padding: 0;
+}
+
+.privacy-modal-body li {
+  margin-bottom: .35rem;
+}
+
+.privacy-note {
+  margin-top: .85rem !important;
+  padding: .75rem;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  font-weight: 500;
+}
+
+.privacy-modal-actions {
+  padding: .9rem 1.15rem calc(.9rem + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border);
+  background: var(--card);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .privacy-modal-card {
+    width: 100%;
+    max-height: 92vh;
+    border-radius: 16px 16px 0 0;
+  }
+}

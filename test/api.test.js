@@ -552,6 +552,60 @@ describe('Visits', () => {
     assert.equal(missingCommit.status, 400);
   });
 
+  it('staff can view pet photo but not visit visitor signature', async () => {
+    const signature = `data:image/png;base64,${'iVBOR'.padEnd(220, 'A')}`;
+    const tinyPng =
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
+    const create = await request(
+      'POST',
+      '/api/visits',
+      {
+        visitorName: 'Visitante Firma Staff',
+        document: '888777',
+        visitDate: '2025-10-22',
+        visitorPhone: '3002223344',
+        hasPet: true,
+        visitorSignature: signature,
+        pet: {
+          name: 'Toby',
+          species: 'perro',
+          breed: 'Mestizo',
+          photo: tinyPng,
+          vaccinationCurrent: true,
+          presentsVaccinationCard: true,
+          commitControl: true,
+          commitCleanup: true,
+          commitRules: true,
+          commitResponsibility: true,
+          authorizeData: true,
+          authorizePhoto: true,
+        },
+      },
+      residentToken
+    );
+    assert.equal(create.status, 201);
+    const visitId = create.data.id;
+
+    const staffList = await request('GET', '/api/visits', null, staffToken);
+    assert.equal(staffList.status, 200);
+    const staffItem = staffList.data.find((v) => v.id === visitId);
+    assert.ok(staffItem);
+    assert.equal(staffItem.hasPetPhoto, true);
+    assert.equal(staffItem.hasVisitorSignature, false);
+
+    const staffSig = await request('GET', `/api/visits/${visitId}/signature`, null, staffToken);
+    assert.equal(staffSig.status, 403);
+
+    const staffPhoto = await request('GET', `/api/visits/${visitId}/pet-photo`, null, staffToken);
+    assert.equal(staffPhoto.status, 200);
+
+    const adminSig = await request('GET', `/api/visits/${visitId}/signature`, null, adminToken);
+    assert.equal(adminSig.status, 200);
+
+    const residentSig = await request('GET', `/api/visits/${visitId}/signature`, null, residentToken);
+    assert.equal(residentSig.status, 200);
+  });
+
   it('staff updates visit status with timeline', async () => {
     const createRes = await request(
       'POST',

@@ -532,7 +532,7 @@ app.get('/api/visits/day', requireAuth(['admin', 'resident', 'staff']), (req, re
   }
   res.json({
     date,
-    items: visits.map((v) => publicVisitItem(v)),
+    items: visits.map((v) => publicVisitItem(v, req.session.role)),
   });
 });
 
@@ -543,10 +543,10 @@ app.get('/api/visits', requireAuth(), (req, res) => {
     const unit = getResidentUnit(req.session);
     visits = visits.filter((v) => v.unit === unit);
   }
-  res.json(visits.map((v) => publicVisitItem(v)));
+  res.json(visits.map((v) => publicVisitItem(v, req.session.role)));
 });
 
-function publicVisitItem(visit) {
+function publicVisitItem(visit, viewerRole = null) {
   const { visitorSignature, ...rest } = visit;
   let pet = null;
   let hasPetPhoto = false;
@@ -555,11 +555,12 @@ function publicVisitItem(visit) {
     pet = petRest;
     hasPetPhoto = Boolean(photo);
   }
+  const canSeeSignature = viewerRole !== 'staff';
   return {
     ...rest,
     pet,
     hasPet: Boolean(visit.hasPet),
-    hasVisitorSignature: Boolean(visitorSignature),
+    hasVisitorSignature: canSeeSignature ? Boolean(visitorSignature) : false,
     hasPetPhoto,
   };
 }
@@ -699,7 +700,7 @@ app.post('/api/visits', requireAuth(['admin', 'resident']), (req, res) => {
     entityId: visit.id,
     details: `Visita registrada: ${visit.visitorName} → ${visitUnit} (${scheduledDate})${petLabel}`,
   });
-  res.status(201).json(publicVisitItem(visit));
+  res.status(201).json(publicVisitItem(visit, req.session.role));
 });
 
 app.patch('/api/visits/:id', requireAuth(['admin', 'staff']), (req, res) => {
@@ -741,7 +742,7 @@ app.patch('/api/visits/:id', requireAuth(['admin', 'staff']), (req, res) => {
     entityId: visit.id,
     details: `Visita ${status}: ${visit.visitorName}`,
   });
-  res.json(publicVisitItem(visit));
+  res.json(publicVisitItem(visit, req.session.role));
 });
 
 app.delete('/api/visits/:id', requireAuth('admin'), requireSuperAdmin(), (req, res) => {
@@ -771,7 +772,7 @@ function canAccessVisit(req, visit) {
   return req.session.role === 'admin' || req.session.role === 'staff';
 }
 
-app.get('/api/visits/:id/signature', requireAuth(['admin', 'staff', 'resident']), (req, res) => {
+app.get('/api/visits/:id/signature', requireAuth(['admin', 'resident']), (req, res) => {
   const db = getDatabase();
   const visit = db.visits.find((v) => v.id === req.params.id);
   if (!visit || !visit.visitorSignature) {

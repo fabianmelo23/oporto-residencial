@@ -1975,7 +1975,9 @@
       <small>Vacunación vigente: ${p.vaccinationCurrent ? 'Sí' : 'No'} · Carné: ${p.presentsVaccinationCard ? 'Sí' : 'No'}</small>
       <div class="btn-group" style="margin-top:.4rem">
         ${v.hasPetPhoto ? `<button type="button" class="btn btn-sm" data-visit-pet-photo="${v.id}">Ver foto mascota</button>` : ''}
-        ${v.hasVisitorSignature ? `<button type="button" class="btn btn-sm" data-visit-signature="${v.id}">Ver firma</button>` : ''}
+        ${v.hasVisitorSignature && currentUser && currentUser.role !== 'staff'
+          ? `<button type="button" class="btn btn-sm" data-visit-signature="${v.id}">Ver firma</button>`
+          : ''}
       </div>
     </div>`;
   }

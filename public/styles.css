@@ -2075,15 +2075,27 @@ input.field-locked:disabled {
   box-shadow: var(--shadow);
 }
 
-.login-manual-link {
+.login-top-actions {
   position: fixed;
   top: 1rem;
-  left: 1rem;
+  right: 1rem;
   z-index: 50;
   display: inline-flex;
   align-items: center;
+  gap: .5rem;
+  max-width: calc(100vw - 2rem);
+}
+
+.login-top-actions .theme-toggle {
+  box-shadow: var(--shadow);
+  flex: 0 0 auto;
+}
+
+.login-manual-link {
+  display: inline-flex;
+  align-items: center;
   gap: .45rem;
-  max-width: calc(100vw - 5.5rem);
+  min-width: 0;
   padding: .55rem .85rem;
   border-radius: 999px;
   border: 1px solid var(--border);

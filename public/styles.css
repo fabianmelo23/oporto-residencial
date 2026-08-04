@@ -1767,7 +1767,11 @@ input.field-locked:disabled {
   }
 
   #user-info {
-    display: none;
+    display: block;
+    margin-top: .1rem;
+    font-size: .78rem;
+    line-height: 1.25;
+    max-width: 100%;
   }
 
   .mobile-section {

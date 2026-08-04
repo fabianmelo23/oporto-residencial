@@ -26,7 +26,7 @@ Abre en el navegador: **http://localhost:3000**
 
 Los datos de trabajo se guardan en `data/database.local.json` (no se versiona). La semilla inicial está en `data/database.json`.
 
-> **Importante:** no subas tu `database.local.json` a GitHub. Ese archivo es solo local. Los cambios operativos (residentes, visitas, etc.) se quedan en tu máquina / Railway y no deben sincronizarse al repo.
+> **Importante:** no subas tu `database.local.json` a GitHub. Ese archivo es solo local. Los cambios operativos (residentes, visitas, etc.) se quedan en tu máquina / Railway y **no deben sincronizarse al repo**. El agente tampoco debe copiar datos locales a GitHub de aquí en adelante.
 
 ## Producción local
 

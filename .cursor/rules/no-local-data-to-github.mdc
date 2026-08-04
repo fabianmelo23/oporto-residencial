@@ -1,0 +1,25 @@
+---
+description: Never upload local generated app data to GitHub
+alwaysApply: true
+---
+
+# No local data on GitHub
+
+Operational data generated while using the app locally must never be pushed to GitHub.
+
+## Do not
+
+- Copy `data/database.local.json` (or any runtime DB) into `data/database.json`
+- Commit `database.local.json`, `database.demo.json`, `database.wipe.json`, or similar runtime files
+- Sync residents, visits, reservations, correspondence, payments, audit logs, notifications, or photos from local into the repo
+- “Update the seed with my current local data” unless the user **explicitly** asks to change the seed template itself
+
+## Allowed
+
+- Keep using and editing `data/database.local.json` locally (it is gitignored)
+- Change code, UI, tests, and `data/database.test-seed.json` for automated tests
+- Change `data/database.json` only when the user explicitly asks to update the **empty/demo seed template** (not a dump of their live local DB)
+
+## If unsure
+
+Ask the user before touching `data/database.json`. Prefer leaving local data only on the machine / Railway volume.

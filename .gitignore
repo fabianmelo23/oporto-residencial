@@ -1,3 +1,10 @@
 node_modules
 .env
+
+# Runtime / local databases — never commit generated data
 data/*.local.json
+data/database.demo.json
+data/database.wipe.json
+data/database.*.json
+!data/database.json
+!data/database.test-seed.json

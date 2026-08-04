@@ -376,6 +376,18 @@
         <small>${formatDate(c.deliveredAt)} — Vigilante: ${escapeHtml(c.deliveredByStaffName || '-')}</small>
       </div>`;
     }
+    // La foto del paquete debe seguir disponible en historial aunque ya esté entregada.
+    const photoBtn = c.hasPhoto
+      ? `<button type="button" class="btn btn-sm btn-secondary" data-corr-photo="${escapeHtml(c.id)}">Ver imagen</button>`
+      : '';
+    const signatureBtn = c.hasSignature
+      ? `<button type="button" class="btn btn-sm" data-corr-signature="${escapeHtml(c.id)}">Ver firma</button>`
+      : '';
+    const deliverBtn =
+      showDeliverButton && status !== 'entregado'
+        ? `<button type="button" class="btn btn-success btn-sm" data-deliver-corr="${escapeHtml(c.id)}">Realizar entrega</button>`
+        : '';
+    const actions = [photoBtn, signatureBtn, deliverBtn].filter(Boolean).join('');
     return `<div class="card corr-card">
       <div class="corr-card-header">
         <strong>${residentView ? 'Correspondencia' : escapeHtml(c.residentName)}</strong>
@@ -384,11 +396,7 @@
       <p>${escapeHtml(c.description || '')}</p>
       <small>Recibido: ${formatDate(c.receivedAt)} — Vigilante: ${escapeHtml(c.receivedByStaffName || '-')}</small>
       ${deliveryInfo}
-      <div class="btn-group">
-        ${c.hasPhoto ? `<button class="btn btn-sm" data-corr-photo="${c.id}">Ver imagen</button>` : ''}
-        ${c.hasSignature ? `<button class="btn btn-sm" data-corr-signature="${c.id}">Ver firma</button>` : ''}
-        ${showDeliverButton && status !== 'entregado' ? `<button class="btn btn-success btn-sm" data-deliver-corr="${c.id}">Realizar entrega</button>` : ''}
-      </div>
+      ${actions ? `<div class="btn-group corr-card-actions">${actions}</div>` : ''}
     </div>`;
   }
 
@@ -2835,8 +2843,11 @@
       <div id="corr-selected" class="selected-resident hidden"></div>
       <form id="form-correspondence">
         <label>Descripción <textarea name="description" required></textarea></label>
-        <label>Foto <input type="file" id="corr-photo" accept="image/*"></label>
-        <img id="corr-preview" class="photo-preview hidden">
+        <label>Foto del paquete
+          <input type="file" id="corr-photo" accept="image/*" capture="environment" required>
+        </label>
+        <small class="field-hint">Obligatoria: quedará disponible en el historial aunque ya se haya entregado.</small>
+        <img id="corr-preview" class="photo-preview hidden" alt="Vista previa del paquete">
         <div class="btn-group"><button type="submit" class="btn btn-primary" id="corr-submit" disabled>Registrar</button></div>
       </form>
     </div>`;
@@ -2914,6 +2925,10 @@
       if (!selectedResident) return;
       const description = formCorr.description.value;
       const photo = photoInput && photoInput.dataset.compressed ? photoInput.dataset.compressed : null;
+      if (!photo) {
+        alert('Debes adjuntar la foto del paquete para poder registrarlo');
+        return;
+      }
       await api('POST', '/api/correspondence', { residentId: selectedResident.id, description, photo });
       alert('Correspondencia registrada');
       loadStaffPanel('sec-correspondence');

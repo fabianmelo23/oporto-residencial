@@ -790,6 +790,18 @@ th { background: var(--bg); font-weight: 600; }
   margin-bottom: .75rem;
 }
 
+.corr-card-actions {
+  margin-top: .65rem;
+}
+
+.field-hint {
+  display: block;
+  margin: -.35rem 0 .75rem;
+  color: var(--muted);
+  font-size: .78rem;
+  line-height: 1.35;
+}
+
 .corr-card-header {
   display: flex;
   align-items: center;

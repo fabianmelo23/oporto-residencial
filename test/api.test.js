@@ -997,6 +997,14 @@ describe('Correspondence', () => {
     const tinyPng =
       'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
 
+    const missingPhoto = await request(
+      'POST',
+      '/api/correspondence',
+      { residentId, description: 'Sin foto' },
+      staffToken
+    );
+    assert.equal(missingPhoto.status, 400);
+
     const create = await request(
       'POST',
       '/api/correspondence',
@@ -1038,13 +1046,16 @@ describe('Correspondence', () => {
     const search = await request('GET', '/api/residents/search?q=juan', null, staffToken);
     const residentId = search.data[0].id;
 
+    const packagePhoto =
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
     const create = await request(
       'POST',
       '/api/correspondence',
-      { residentId, description: 'Sobre certificado' },
+      { residentId, description: 'Sobre certificado', photo: packagePhoto },
       staffToken
     );
     assert.equal(create.status, 201);
+    assert.equal(create.data.hasPhoto, true);
 
     // Minimal valid-looking signature payload (base64 length >= 200)
     const signature = `data:image/png;base64,${'iVBOR'.padEnd(220, 'A')}`;
@@ -1089,9 +1100,25 @@ describe('Correspondence', () => {
       assert.equal(deliver.data.status, 'entregado');
       assert.equal(deliver.data.recipientName, 'María López');
       assert.equal(deliver.data.deliveredByStaffName, 'Yeison Obando');
+      assert.equal(deliver.data.hasPhoto, true);
       assert.equal(deliver.data.hasSignature, false);
       assert.ok(!('signature' in deliver.data));
       assert.ok(deliver.data.deliveredAt);
+
+      const staffPhotoAfter = await request(
+        'GET',
+        `/api/correspondence/${create.data.id}/photo`,
+        null,
+        dutyToken
+      );
+      assert.equal(staffPhotoAfter.status, 200);
+      assert.match(staffPhotoAfter.headers['content-type'], /image/);
+
+      const staffList = await request('GET', '/api/correspondence', null, dutyToken);
+      const deliveredItem = staffList.data.find((c) => c.id === create.data.id);
+      assert.ok(deliveredItem);
+      assert.equal(deliveredItem.status, 'entregado');
+      assert.equal(deliveredItem.hasPhoto, true);
 
       const staffSig = await request(
         'GET',
@@ -1135,11 +1162,13 @@ describe('Correspondence', () => {
   it('resident sees only own correspondence', async () => {
     const search = await request('GET', '/api/residents/search?q=juan', null, staffToken);
     const residentId = search.data[0].id;
+    const packagePhoto =
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
 
     const create = await request(
       'POST',
       '/api/correspondence',
-      { residentId, description: 'Caja para residente' },
+      { residentId, description: 'Caja para residente', photo: packagePhoto },
       staffToken
     );
     assert.equal(create.status, 201);

@@ -49,7 +49,7 @@ npm test
 | Vigilante | `f.melo` | `melo123` |
 | Vigilante | `y.obando` | `obando123` |
 | Vigilante | `j.bernal` | `bernal123` |
-| Residente | *(crear desde Administración)* | — |
+| Residente | `Pepito201` | `Pepito201` |
 
 ## Variables de entorno (`.env`)
 

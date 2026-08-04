@@ -73,12 +73,16 @@ body {
 
 .login-demo-list li {
   display: grid;
-  gap: .15rem;
+  gap: .25rem;
 }
 
 .login-demo-role {
   color: var(--text);
-  font-weight: 500;
+  font-weight: 600;
+}
+
+.login-demo-creds {
+  display: block;
 }
 
 .login-demo code {

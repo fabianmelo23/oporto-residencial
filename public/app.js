@@ -705,22 +705,33 @@
   }
 
   function formatUserInfo(user) {
-    let roleLabel = { admin: 'Administración', resident: 'Residente', staff: 'Seguridad' }[user.role] || user.role;
-    if (user.role === 'admin' && user.adminLevel === 'super') {
-      roleLabel = 'Super Admin';
+    if (!user) return '';
+
+    // Administración: solo el rol, sin saludo ni nombre personal.
+    if (user.role === 'admin') {
+      return 'Administración';
     }
-    let text = `${user.name} — ${roleLabel}`;
-    if (user.unit) text += ` (Unidad ${user.unit})`;
+
+    const firstName = String(user.name || '')
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)[0] || user.username || 'usuario';
+
+    // Residente y vigilante: "Hola {nombre}"
+    let text = `Hola ${firstName}`;
+    if (user.role === 'resident' && user.unit) {
+      text += ` · Unidad ${user.unit}`;
+    }
     if (user.role === 'staff') {
       if (user.currentShift) {
         const s = user.currentShift;
         if (s.type === 'rest') {
-          text += ` — ${s.shiftLabel}`;
+          text += ` · ${s.shiftLabel}`;
         } else {
-          text += ` — ${s.shiftLabel}: ${s.schedule}`;
+          text += ` · ${s.shiftLabel}: ${s.schedule}`;
         }
       } else {
-        text += ' — Sin turno en malla para hoy';
+        text += ' · Sin turno en malla para hoy';
       }
     }
     return text;

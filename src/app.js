@@ -49,6 +49,10 @@ const app = express();
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(
+  '/manual',
+  express.static(path.join(__dirname, '..', 'docs', 'manual-administradora'))
+);
 
 loadDatabase();
 

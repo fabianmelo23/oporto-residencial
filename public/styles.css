@@ -2075,6 +2075,66 @@ input.field-locked:disabled {
   box-shadow: var(--shadow);
 }
 
+.login-manual-link {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  max-width: calc(100vw - 5.5rem);
+  padding: .55rem .85rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  text-decoration: none;
+  box-shadow: var(--shadow);
+  font-size: .88rem;
+  font-weight: 600;
+  line-height: 1.1;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.login-manual-link:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.login-manual-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary, #2f6fed);
+  flex: 0 0 auto;
+}
+
+.login-manual-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 420px) {
+  .login-manual-link {
+    padding: .55rem;
+    border-radius: 999px;
+  }
+
+  .login-manual-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
 html[data-theme="light"] .theme-icon-light,
 html[data-theme="dark"] .theme-icon-dark {
   display: none;

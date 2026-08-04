@@ -47,7 +47,8 @@ npm test
 | Vigilante | `f.melo` | `melo123` |
 | Vigilante | `y.obando` | `obando123` |
 | Vigilante | `j.bernal` | `bernal123` |
-| Residente | `juan101` | `resident123` |
+| Residente | `thunder101` | `resident123` |
+| Residente (pruebas) | `juan101` | `resident123` |
 
 ## Variables de entorno (`.env`)
 

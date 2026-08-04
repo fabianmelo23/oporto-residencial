@@ -52,6 +52,17 @@
   ],
   "residents": [
     {
+      "id": "res_thunder_101",
+      "username": "thunder101",
+      "passwordHash": "2c5b227b91135333160d1f6ccdbe3877:77f1424997c5866232198392f07e517f9436d36955d29bb7505b844382bbd8223e5c5c9b05fa32eed6bf522731a9981a89db66117f22bc47a79aefe0839fe0e9",
+      "name": "Thunder",
+      "unit": "101",
+      "phone": "3000000101",
+      "email": "thunder101@oporto.local",
+      "active": true,
+      "mustChangePassword": false
+    },
+    {
       "id": "res_1",
       "username": "juan101",
       "passwordHash": "a1cd76ca871960ecded5b3caff315e90:7c4c3c7aad7e1bc391275c2bd296e4a62fd014d6725805befe6cf112e781c6ec3b5a89ad653f592945c3a495f738c4b3347e88a5589093ce21213f581afbd8c2",

@@ -2797,7 +2797,6 @@
         ${badge(v.status)}
         ${v.hasPet ? '<span class="pet-badge">Con mascota</span>' : ''}<br>
         ${v.visitDate ? `<small>Fecha: ${escapeHtml(v.visitDate)}${v.entryTime ? ` · ${escapeHtml(v.entryTime)}` : ''}</small><br>` : ''}
-        ${v.visitorPhone ? `<small>Tel: ${escapeHtml(v.visitorPhone)}</small><br>` : ''}
         ${v.vehicleModel || v.vehiclePlates
           ? `<small>${escapeHtml([v.vehicleModel, v.vehiclePlates].filter(Boolean).join(' · '))}</small><br>`
           : ''}

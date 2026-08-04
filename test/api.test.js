@@ -1,3 +1,4 @@
+require('../src/appTimezone');
 const { describe, it, before, after, beforeEach, mock } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('fs');
@@ -1047,19 +1048,35 @@ describe('Correspondence', () => {
       assert.equal(onDuty.status, 200);
       assert.equal(onDuty.data.staffName, 'Yeison Obando');
 
+      // Entrega la registra el vigilante en turno (Yeison en diurno), no otro staff.
+      const dutyLogin = await request('POST', '/api/auth/login', {
+        username: 'y.obando',
+        password: 'obando123',
+      });
+      assert.equal(dutyLogin.status, 200);
+      const dutyToken = dutyLogin.data.token;
+
       const missingSig = await request(
         'PATCH',
         `/api/correspondence/${create.data.id}/deliver`,
         { recipientName: 'María López' },
-        staffToken
+        dutyToken
       );
       assert.equal(missingSig.status, 400);
+
+      const offDutyAttempt = await request(
+        'PATCH',
+        `/api/correspondence/${create.data.id}/deliver`,
+        { recipientName: 'María López', signature },
+        staffToken
+      );
+      assert.equal(offDutyAttempt.status, 400);
 
       const deliver = await request(
         'PATCH',
         `/api/correspondence/${create.data.id}/deliver`,
         { recipientName: 'María López', signature },
-        staffToken
+        dutyToken
       );
       assert.equal(deliver.status, 200);
       assert.equal(deliver.data.status, 'entregado');
@@ -1629,6 +1646,18 @@ describe('On-duty guard', () => {
     const now = new Date(2025, 5, 24, 6, 30);
     const onDuty = getOnDutyGuard(periods, now);
     assert.equal(onDuty, null);
+  });
+
+  it('keeps day guard on duty at Bogotá afternoon (not UTC night guard)', () => {
+    // 13:30 America/Bogota on 2025-06-24 — still inside 07:00–18:00 diurno.
+    // Without TZ=America/Bogota on a UTC host this instant looks like 18:30 UTC
+    // and incorrectly selects the nocturno guard.
+    const shifts = generateGuardShiftSchedule('2025-06-24', 2, 0);
+    const periods = [createGuardShiftPeriod(shifts, '2025-06-24', '2025-06-25')];
+    const bogotaAfternoon = new Date('2025-06-24T18:30:00.000Z');
+    const onDuty = getOnDutyGuard(periods, bogotaAfternoon);
+    assert.equal(onDuty.guardName, 'Yeison Obando');
+    assert.equal(onDuty.shiftLabel, '1 diurno');
   });
 });
 

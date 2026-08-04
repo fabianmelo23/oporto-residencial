@@ -188,6 +188,36 @@ body {
   text-overflow: ellipsis;
 }
 
+#user-info.has-staff-shift {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .1rem;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+}
+
+#user-info .user-info-name {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+#user-info .user-info-shift {
+  display: block;
+  font-size: .78rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
 #user-info.is-super-admin {
   color: var(--muted);
 }
@@ -1772,6 +1802,15 @@ input.field-locked:disabled {
     font-size: .78rem;
     line-height: 1.25;
     max-width: 100%;
+  }
+
+  #user-info.has-staff-shift {
+    display: flex;
+    margin-top: .12rem;
+  }
+
+  #user-info .user-info-shift {
+    font-size: .72rem;
   }
 
   .mobile-section {

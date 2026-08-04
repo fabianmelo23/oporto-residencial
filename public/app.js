@@ -754,33 +754,41 @@
 
     const displayName = String(user.name || user.username || 'usuario').trim();
 
-    // Residente y vigilante: "Hola {nombre}"
+    // Residente y vigilante: "Hola {nombre}" (el horario del vigilante va en línea aparte)
     let text = `Hola ${displayName}`;
     if (user.role === 'resident' && user.unit) {
       text += ` · Unidad ${user.unit}`;
     }
-    if (user.role === 'staff') {
-      if (user.currentShift) {
-        const s = user.currentShift;
-        if (s.type === 'rest') {
-          text += ` · ${s.shiftLabel}`;
-        } else {
-          text += ` · ${s.shiftLabel}: ${s.schedule}`;
-        }
-      } else {
-        text += ' · Sin turno en malla para hoy';
-      }
-    }
     return text;
+  }
+
+  function formatStaffShiftLine(user) {
+    if (!user || user.role !== 'staff') return '';
+    if (!user.currentShift) return 'Sin turno en malla para hoy';
+    const s = user.currentShift;
+    if (s.type === 'rest') return s.shiftLabel || 'Día de descanso';
+    const label = s.shiftLabel || (s.type === 'night' ? 'Nocturno' : 'Diurno');
+    const schedule = s.schedule || '';
+    return schedule ? `${label}: ${schedule}` : label;
   }
 
   function renderUserInfo(user) {
     const el = $('#user-info');
     if (!el) return;
     const isSuper = user && user.role === 'admin' && user.adminLevel === 'super';
+    const isStaff = user && user.role === 'staff';
     el.classList.toggle('is-super-admin', Boolean(isSuper));
+    el.classList.toggle('has-staff-shift', Boolean(isStaff));
     if (isSuper) {
       el.innerHTML = 'Hola <span class="user-info-super">Súper Admin</span>';
+      return;
+    }
+    if (isStaff) {
+      const name = escapeHtml(formatUserInfo(user));
+      const shift = escapeHtml(formatStaffShiftLine(user));
+      el.innerHTML =
+        `<span class="user-info-name">${name}</span>` +
+        `<span class="user-info-shift">${shift}</span>`;
       return;
     }
     el.textContent = formatUserInfo(user);

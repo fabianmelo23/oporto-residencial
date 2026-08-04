@@ -1561,6 +1561,9 @@ app.get('/api/correspondence', requireAuth(['admin', 'staff', 'resident']), (req
 
 app.post('/api/correspondence', requireAuth('staff'), (req, res) => {
   const { residentId, description, photo } = req.body || {};
+  if (!photo || typeof photo !== 'string' || !photo.startsWith('data:image/')) {
+    return res.status(400).json({ error: 'La foto del paquete es obligatoria' });
+  }
   if (!residentId || !description) {
     return res.status(400).json({ error: 'Residente y descripción requeridos' });
   }

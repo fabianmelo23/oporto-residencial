@@ -1392,7 +1392,7 @@ input.field-locked:disabled {
 
 .ann-card-text {
   margin: 0;
-  color: #334155;
+  color: #475569;
   white-space: pre-wrap;
   line-height: 1.55;
 }
@@ -2447,6 +2447,14 @@ html[data-theme="dark"] .resv-deposit-note {
 html[data-theme="dark"] .ann-pill {
   color: #fdba74;
   border-color: #92400e;
+}
+
+html[data-theme="dark"] .ann-card-text {
+  color: #dbe7f5;
+}
+
+html[data-theme="dark"] .ann-card-meta time {
+  color: #a8b9cf;
 }
 
 html[data-theme="dark"] .cal-day.has-booking {

@@ -172,6 +172,14 @@ body {
   text-overflow: ellipsis;
 }
 
+.brand-short {
+  display: none;
+}
+
+.brand-full {
+  display: inline;
+}
+
 #user-info {
   color: var(--muted);
   font-size: .875rem;
@@ -1702,20 +1710,69 @@ input.field-locked:disabled {
   }
 
   .app-header {
-    padding: .75rem 1rem;
+    padding: .55rem .7rem;
     align-items: center;
+    gap: .45rem;
+  }
+
+  .header-left {
+    gap: .45rem;
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  .header-titles {
+    min-width: 0;
+    overflow: hidden;
   }
 
   .app-header h1 {
-    font-size: 1.05rem;
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .brand-full {
+    display: none;
+  }
+
+  .brand-short {
+    display: inline;
   }
 
   #user-info {
-    font-size: .75rem;
+    display: none;
   }
 
   .mobile-section {
     display: block;
+    margin-top: .1rem;
+    font-size: .78rem;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  .header-actions {
+    gap: .35rem;
+    flex-shrink: 0;
+  }
+
+  .nav-toggle,
+  .theme-toggle,
+  .notif-bell {
+    width: 2.2rem;
+    height: 2.2rem;
+    font-size: .95rem;
+  }
+
+  .logout-btn {
+    padding: .35rem .55rem;
+    font-size: .72rem;
+    white-space: nowrap;
   }
 
   .logout-label-full {
@@ -1727,18 +1784,21 @@ input.field-locked:disabled {
   }
 
   #content {
-    padding: 1rem;
+    padding: .85rem;
     max-width: 100%;
+    width: 100%;
+    overflow-x: hidden;
   }
 
   .card {
-    padding: 1rem;
+    padding: .9rem;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    max-width: 100%;
   }
 
   .card h2 {
-    font-size: 1.05rem;
+    font-size: 1.02rem;
   }
 
   .form-grid {
@@ -1767,6 +1827,11 @@ input.field-locked:disabled {
     -webkit-overflow-scrolling: touch;
   }
 
+  .unit-group summary {
+    font-size: .9rem;
+    padding: .7rem .85rem;
+  }
+
   .btn-group {
     gap: .4rem;
   }
@@ -1777,6 +1842,12 @@ input.field-locked:disabled {
 
   .corr-card-header {
     flex-wrap: wrap;
+  }
+
+  .app-footer {
+    flex-direction: column;
+    gap: .35rem;
+    padding: .75rem .85rem calc(.75rem + env(safe-area-inset-bottom));
   }
 
   .modal {
@@ -1851,31 +1922,61 @@ input.field-locked:disabled {
 }
 
 @media (max-width: 480px) {
+  .app-header {
+    padding: .5rem .55rem;
+    gap: .35rem;
+  }
+
+  .header-left {
+    gap: .35rem;
+  }
+
   .app-header h1 {
-    font-size: .98rem;
+    font-size: .95rem;
+  }
+
+  .mobile-section {
+    font-size: .72rem;
+  }
+
+  .nav-toggle,
+  .theme-toggle,
+  .notif-bell {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .logout-btn {
+    padding: .3rem .45rem;
+    font-size: .68rem;
   }
 
   #content {
-    padding: .75rem;
+    padding: .65rem;
   }
 
   .card {
-    padding: .85rem;
+    padding: .75rem;
     border-radius: 10px;
   }
 
   table {
-    min-width: 32rem;
-    font-size: .8125rem;
+    min-width: 30rem;
+    font-size: .8rem;
   }
 
   th, td {
-    padding: .45rem .55rem;
+    padding: .4rem .5rem;
   }
 
   .cal-weekday,
   .cal-day-num {
     font-size: .7rem;
+  }
+
+  .tabs {
+    width: min(17rem, 88vw);
+    padding-top: 1rem;
   }
 }
 

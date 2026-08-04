@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oporto Residencial</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Login -->
+    <section id="login-view" class="view">
+      <div class="login-card">
+        <h1>Oporto Residencial</h1>
+        <p class="subtitle">Gestión de conjunto residencial</p>
+        <form id="login-form">
+          <label>
+            Usuario
+            <input type="text" id="login-username" required autocomplete="username">
+          </label>
+          <label>
+            Contraseña
+            <div class="password-field">
+              <input type="password" id="login-password" required autocomplete="current-password">
+              <button type="button" id="toggle-password" class="btn-icon" title="Mostrar/ocultar">👁</button>
+            </div>
+          </label>
+          <p id="login-error" class="error hidden"></p>
+          <p id="login-success" class="login-success hidden"></p>
+          <button type="submit" class="btn btn-primary">Ingresar</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- First-login password gate -->
+    <section id="password-gate-view" class="view hidden">
+      <div class="login-card password-gate-card">
+        <h1>Cambia tu contraseña</h1>
+        <p class="subtitle">Por seguridad, debes cambiar la contraseña temporal antes de usar la aplicación.</p>
+        <form id="form-change-password">
+          <label>Contraseña antigua
+            <div class="password-field">
+              <input type="password" id="pw-current" required autocomplete="current-password">
+              <button type="button" id="toggle-pw-current" class="btn-icon" title="Mostrar/ocultar">👁</button>
+            </div>
+          </label>
+          <label>Contraseña nueva
+            <div class="password-field">
+              <input type="password" id="pw-new" required autocomplete="new-password" minlength="6">
+              <button type="button" id="toggle-pw-new" class="btn-icon" title="Mostrar/ocultar">👁</button>
+            </div>
+          </label>
+          <ul class="pw-rules" id="pw-rules" aria-live="polite">
+            <li data-rule="length">Mínimo 6 caracteres</li>
+            <li data-rule="upper">Al menos 1 mayúscula</li>
+            <li data-rule="number">Al menos 1 número</li>
+          </ul>
+          <p id="password-change-error" class="error hidden"></p>
+          <button type="submit" class="btn btn-primary" id="pw-submit">Guardar e ingresar de nuevo</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Main app -->
+    <section id="main-view" class="view hidden">
+      <header class="app-header">
+        <div>
+          <h1>Oporto Residencial</h1>
+          <p id="user-info"></p>
+        </div>
+        <div class="header-actions">
+          <div class="notif-wrap">
+            <button type="button" id="notif-bell" class="notif-bell" aria-label="Notificaciones" title="Notificaciones">
+              <span class="notif-bell-icon" aria-hidden="true">🔔</span>
+              <span id="notif-badge" class="notif-badge hidden">0</span>
+            </button>
+            <div id="notif-panel" class="notif-panel hidden" role="dialog" aria-label="Panel de notificaciones">
+              <div class="notif-panel-head">
+                <strong>Notificaciones</strong>
+                <button type="button" class="btn btn-sm btn-secondary" id="notif-mark-all">Marcar todas</button>
+              </div>
+              <div id="notif-list" class="notif-list">
+                <p class="notif-empty">No hay notificaciones</p>
+              </div>
+            </div>
+          </div>
+          <button id="logout-btn" class="btn btn-secondary">Cerrar sesión</button>
+        </div>
+      </header>
+
+      <nav id="admin-nav" class="tabs hidden">
+        <button data-tab="residents" class="tab active">Residentes</button>
+        <button data-tab="visits" class="tab">Visitas</button>
+        <button data-tab="reservations" class="tab">Reservas</button>
+        <button data-tab="maintenance" class="tab">Mantenimiento</button>
+        <button data-tab="payments" class="tab">Pagos</button>
+        <button data-tab="announcements" class="tab">Anuncios</button>
+        <button data-tab="staff" class="tab">Vigilantes</button>
+        <button data-tab="audit" class="tab">Auditoría</button>
+        <button data-tab="guard-shifts" class="tab">Turnos</button>
+        <button data-tab="correspondence-admin" class="tab">Correspondencia</button>
+      </nav>
+
+      <nav id="resident-nav" class="tabs hidden">
+        <button data-tab="res-visits" class="tab active">Mis Visitas</button>
+        <button data-tab="res-reservations" class="tab">Mis Reservas</button>
+        <button data-tab="res-correspondence" class="tab">Correspondencia Recibida</button>
+        <button data-tab="res-announcements" class="tab">Anuncios</button>
+      </nav>
+
+      <nav id="staff-nav" class="tabs hidden">
+        <button data-tab="sec-announcements" class="tab active">Anuncios</button>
+        <button data-tab="sec-visits" class="tab">Visitas</button>
+        <button data-tab="sec-reservations" class="tab">Reservas</button>
+        <button data-tab="sec-correspondence" class="tab">Correspondencia</button>
+        <button data-tab="sec-received" class="tab">Historial de correspondencia</button>
+      </nav>
+
+      <main id="content"></main>
+    </section>
+
+    <div id="admin-resident-password-modal" class="modal hidden" role="dialog" aria-labelledby="admin-resident-password-title">
+      <div class="modal-backdrop" data-close-resident-password-modal></div>
+      <div class="modal-card password-change-card">
+        <h3 id="admin-resident-password-title">Cambiar contraseña</h3>
+        <p class="modal-subtitle" id="admin-resident-password-sub">Asigna una contraseña temporal al residente.</p>
+        <form id="form-admin-resident-password">
+          <input type="hidden" id="admin-resident-password-id">
+          <label>Nueva contraseña temporal
+            <input type="text" id="admin-resident-password-value" required autocomplete="off" placeholder="Contraseña temporal">
+          </label>
+          <p class="signature-hint">El residente deberá cambiarla al iniciar sesión.</p>
+          <p id="admin-resident-password-error" class="error hidden"></p>
+          <div class="btn-group modal-actions">
+            <button type="button" class="btn btn-secondary" data-close-resident-password-modal>Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="deliver-modal" class="modal hidden" role="dialog" aria-labelledby="deliver-modal-title">
+      <div class="modal-backdrop" data-close-deliver-modal></div>
+      <div class="modal-card">
+        <h3 id="deliver-modal-title">Registrar entrega</h3>
+        <form id="form-deliver">
+          <input type="hidden" id="deliver-corr-id">
+          <label>Nombre de quien recibe
+            <input type="text" id="deliver-recipient" required placeholder="Nombre completo">
+          </label>
+          <label>Fecha y hora
+            <input type="text" id="deliver-datetime" class="field-locked" readonly disabled>
+          </label>
+          <label>Vigilante que entrega
+            <input type="text" id="deliver-staff-name" class="field-locked" readonly disabled>
+          </label>
+          <div class="signature-field">
+            <div class="signature-field-head">
+              <label for="deliver-signature">Firma de quien recibe</label>
+              <button type="button" class="btn btn-sm btn-secondary" id="clear-signature">Limpiar</button>
+            </div>
+            <canvas id="deliver-signature" width="560" height="180" aria-label="Área de firma"></canvas>
+            <p class="signature-hint">El residente debe firmar con el dedo o el mouse</p>
+          </div>
+          <div class="btn-group modal-actions">
+            <button type="button" class="btn btn-secondary" data-close-deliver-modal>Cancelar</button>
+            <button type="submit" class="btn btn-success">Confirmar entrega</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="reservation-modal" class="modal hidden" role="dialog" aria-labelledby="reservation-modal-title">
+      <div class="modal-backdrop" data-close-reservation-modal></div>
+      <div class="modal-card reservation-modal-card">
+        <h3 id="reservation-modal-title">Nueva reserva</h3>
+        <p class="modal-subtitle">Completa los datos para el día seleccionado</p>
+        <div id="resv-day-bookings" class="resv-day-bookings hidden"></div>
+        <form id="form-reservation">
+          <label>Área a reservar
+            <select id="resv-area" name="area" required>
+              <option value="">Seleccione un área...</option>
+              <option value="Turco 1">Turco 1</option>
+              <option value="Turco 2">Turco 2</option>
+              <option value="Televisor">Televisor</option>
+              <option value="Mesa de Ping Pong">Mesa de Ping Pong</option>
+              <option value="Salón social">Salón social</option>
+              <option value="Kiosco 1">Kiosco 1</option>
+              <option value="Kiosco 2">Kiosco 2</option>
+              <option value="Kiosco 3">Kiosco 3</option>
+            </select>
+          </label>
+          <div id="resv-area-notice" class="resv-area-notice hidden" role="status"></div>
+          <label>Fecha
+            <input type="text" id="resv-date-display" class="field-locked" readonly disabled>
+            <input type="hidden" id="resv-date" name="date">
+          </label>
+          <div class="form-row-2">
+            <label>Hora de inicio
+              <input type="time" id="resv-start" name="startTime" required>
+            </label>
+            <label>Hora de fin
+              <input type="time" id="resv-end" name="endTime" required>
+            </label>
+          </div>
+          <label>Nota
+            <textarea id="resv-notes" name="notes" rows="3" placeholder="Opcional: motivo o detalles de la reserva"></textarea>
+          </label>
+          <div class="btn-group modal-actions">
+            <button type="button" class="btn btn-secondary" data-close-reservation-modal>Cancelar</button>
+            <button type="submit" class="btn btn-primary">Solicitar reserva</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div id="visit-modal" class="modal hidden" role="dialog" aria-labelledby="visit-modal-title">
+      <div class="modal-backdrop" data-close-visit-modal></div>
+      <div class="modal-card visit-modal-card">
+        <h3 id="visit-modal-title">Registrar visita</h3>
+        <p class="modal-subtitle">Completa los datos del visitante para el día seleccionado</p>
+        <div id="visit-day-bookings" class="resv-day-bookings hidden"></div>
+        <form id="form-visit-modal">
+          <input type="hidden" id="visit-date" name="visitDate">
+          <label>Fecha de la visita
+            <input type="text" id="visit-date-display" class="field-locked" readonly disabled>
+          </label>
+          <label>Nombre del visitante
+            <input type="text" id="visit-name" name="visitorName" required placeholder="Nombre completo">
+          </label>
+          <label>Número de documento de identidad
+            <input type="text" id="visit-document" name="document" required placeholder="Cédula o documento">
+          </label>
+          <label>Modelo del vehículo
+            <input type="text" id="visit-vehicle-model" name="vehicleModel" placeholder="Ej: Toyota Corolla">
+          </label>
+          <label>Placa(s) del vehículo
+            <input type="text" id="visit-vehicle-plates" name="vehiclePlates" placeholder="Ej: ABC123 o ABC123, XYZ789">
+          </label>
+
+          <fieldset class="visit-pet-choice">
+            <legend>¿Trae mascota?</legend>
+            <div class="visit-pet-choice-opts">
+              <label class="choice-pill">
+                <input type="radio" name="hasPet" id="visit-pet-no" value="no" checked>
+                <span>No</span>
+              </label>
+              <label class="choice-pill">
+                <input type="radio" name="hasPet" id="visit-pet-yes" value="yes">
+                <span>Sí</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div id="visit-pet-form" class="visit-pet-form hidden">
+            <div class="visit-pet-banner">
+              <strong>Registro de ingreso con mascota</strong>
+              <span>Oporto Edificio Multifamiliar - PH</span>
+            </div>
+
+            <label>Teléfono de contacto
+              <input type="tel" id="visit-phone" name="visitorPhone" placeholder="Celular del visitante">
+            </label>
+            <label>Apartamento o residente que visita
+              <input type="text" id="visit-unit-display" class="field-locked" readonly disabled>
+            </label>
+            <label>Hora de ingreso estimada
+              <input type="time" id="visit-entry-time" name="entryTime">
+            </label>
+
+            <h4 class="visit-pet-section-title">Información de la mascota</h4>
+            <label>Nombre de la mascota
+              <input type="text" id="pet-name" placeholder="Nombre de la mascota">
+            </label>
+            <fieldset class="visit-pet-species">
+              <legend>Especie</legend>
+              <div class="visit-pet-choice-opts">
+                <label class="choice-pill"><input type="radio" name="petSpecies" value="perro"> <span>Perro</span></label>
+                <label class="choice-pill"><input type="radio" name="petSpecies" value="gato"> <span>Gato</span></label>
+                <label class="choice-pill"><input type="radio" name="petSpecies" value="otra"> <span>Otra</span></label>
+              </div>
+              <input type="text" id="pet-species-other" class="hidden" placeholder="Especifique la especie">
+            </fieldset>
+            <label>Raza (si aplica)
+              <input type="text" id="pet-breed" placeholder="Ej: Labrador, Siames…">
+            </label>
+            <fieldset class="visit-pet-yesno">
+              <legend>¿La mascota cuenta con esquema de vacunación vigente?</legend>
+              <div class="visit-pet-choice-opts">
+                <label class="choice-pill"><input type="radio" name="petVaccination" value="si"> <span>Sí</span></label>
+                <label class="choice-pill"><input type="radio" name="petVaccination" value="no"> <span>No</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="visit-pet-yesno">
+              <legend>¿Presenta el carné de vacunación?</legend>
+              <div class="visit-pet-choice-opts">
+                <label class="choice-pill"><input type="radio" name="petCard" value="si"> <span>Sí</span></label>
+                <label class="choice-pill"><input type="radio" name="petCard" value="no"> <span>No</span></label>
+              </div>
+            </fieldset>
+
+            <h4 class="visit-pet-section-title">Declaración del visitante</h4>
+            <div class="visit-pet-commitments">
+              <label class="check-row"><input type="checkbox" id="pet-commit-control"><span class="check-row-text">Me comprometo a mantener a mi mascota bajo control durante toda la visita.</span></label>
+              <label class="check-row"><input type="checkbox" id="pet-commit-cleanup"><span class="check-row-text">Me comprometo a recoger los excrementos y limpiar cualquier residuo (incluida la orina) que genere mi mascota en las zonas comunes.</span></label>
+              <label class="check-row"><input type="checkbox" id="pet-commit-rules"><span class="check-row-text">Me comprometo a cumplir el Reglamento de Propiedad Horizontal y las normas de convivencia de la copropiedad.</span></label>
+              <label class="check-row"><input type="checkbox" id="pet-commit-responsibility"><span class="check-row-text">Entiendo que soy responsable por cualquier daño o afectación que mi mascota pueda ocasionar a personas, bienes privados o bienes comunes.</span></label>
+              <label class="check-row"><input type="checkbox" id="pet-authorize-data"><span class="check-row-text">Autorizo el tratamiento de mis datos personales conforme a la Ley 1581 de 2012 y el Decreto 1074 de 2015, únicamente para fines de seguridad, control de acceso y administración de la copropiedad.</span></label>
+              <label class="check-row"><input type="checkbox" id="pet-authorize-photo"><span class="check-row-text">Autorizo fotografía de la mascota.</span></label>
+            </div>
+
+            <label>Foto de la mascota (opcional)
+              <input type="file" id="pet-photo" accept="image/*">
+            </label>
+            <img id="pet-photo-preview" class="photo-preview hidden" alt="Vista previa mascota">
+
+            <div class="signature-field">
+              <div class="signature-field-head">
+                <label for="visit-signature">Firma del visitante</label>
+                <button type="button" class="btn btn-sm btn-secondary" id="clear-visit-signature">Limpiar</button>
+              </div>
+              <canvas id="visit-signature" width="560" height="160" aria-label="Firma del visitante"></canvas>
+              <p class="signature-hint">El visitante debe firmar con el dedo o el mouse</p>
+            </div>
+          </div>
+
+          <p id="visit-form-error" class="error hidden"></p>
+          <div class="btn-group modal-actions">
+            <button type="button" class="btn btn-secondary" data-close-visit-modal>Cancelar</button>
+            <button type="submit" class="btn btn-primary">Registrar visita</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

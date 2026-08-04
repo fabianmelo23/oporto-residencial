@@ -1,0 +1,36 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Oporto: servidor de desarrollo",
+      "type": "npm",
+      "script": "dev",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": false
+      },
+      "isBackground": true,
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    },
+    {
+      "label": "Oporto: ejecutar pruebas",
+      "type": "npm",
+      "script": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Oporto: setup local",
+      "type": "npm",
+      "script": "setup",
+      "problemMatcher": []
+    }
+  ]
+}

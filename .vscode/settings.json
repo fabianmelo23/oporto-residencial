@@ -1,0 +1,12 @@
+{
+  "files.exclude": {
+    "**/node_modules": true,
+    "data/*.local.json": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "data/*.local.json": true
+  },
+  "editor.formatOnSave": false,
+  "terminal.integrated.cwd": "${workspaceFolder}"
+}

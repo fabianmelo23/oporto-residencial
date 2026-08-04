@@ -1,0 +1,210 @@
+{
+  "community": {
+    "name": "Oporto Residencial",
+    "address": "Calle 45 #12-34, Bogotá"
+  },
+  "admins": [
+    {
+      "id": "admin_1",
+      "username": "admin",
+      "passwordHash": "5baf1c5c49b32b8a1abe6d4d4f10b71f:04ede447e0bb8390312f65bb4277b640e683c4d55809687023cb8d7c8b3ee05517f34f83942d851ee0741aa454445e4783154a9294ef8ef1509fbb1b70547d7f",
+      "name": "Super Admin (Desarrollador)",
+      "email": "admin@oporto.local",
+      "adminLevel": "super"
+    },
+    {
+      "id": "admin_oporto_1",
+      "username": "administracionoporto",
+      "passwordHash": "b9e91fd80bc6882f54e5f1ddd70e3fed:16a984e01b3e5e5123b40717f97581d28859113b7f2de2a6b3120647b704243104e7d8ec7327e4bd88f8c4dbd833dd98072afd388e0dca69f4ebad48a51d938a",
+      "name": "Administración Oporto",
+      "email": "administracion@oporto.local",
+      "adminLevel": "admin"
+    }
+  ],
+  "staff": [
+    {
+      "id": "staff_1",
+      "username": "vigilante",
+      "passwordHash": "8ae13230cf979f12daeea71da80c78e6:cd108d9aedb50a3f440d8733682351406774d2135f6e5b312d0cac65db909faf215a42e043b07827a262f1858616ea199c4279e7256a1be8b2faa62db28f63d8",
+      "name": "Carlos Vigilante",
+      "position": "Recepcion Principal",
+      "phone": "3001112233",
+      "active": true
+    }
+  ],
+  "residents": [
+    {
+      "id": "res_1",
+      "username": "juan101",
+      "passwordHash": "a1cd76ca871960ecded5b3caff315e90:7c4c3c7aad7e1bc391275c2bd296e4a62fd014d6725805befe6cf112e781c6ec3b5a89ad653f592945c3a495f738c4b3347e88a5589093ce21213f581afbd8c2",
+      "name": "Juan Pérez",
+      "unit": "101",
+      "phone": "3101234567",
+      "email": "juan.perez@email.com",
+      "active": true
+    },
+    {
+      "id": "res_2",
+      "username": "maria202",
+      "passwordHash": "a1cd76ca871960ecded5b3caff315e90:7c4c3c7aad7e1bc391275c2bd296e4a62fd014d6725805befe6cf112e781c6ec3b5a89ad653f592945c3a495f738c4b3347e88a5589093ce21213f581afbd8c2",
+      "name": "María García",
+      "unit": "202",
+      "phone": "3209876543",
+      "email": "maria.garcia@email.com",
+      "active": true
+    },
+    {
+      "id": "res_3",
+      "username": "pedro303",
+      "passwordHash": "a1cd76ca871960ecded5b3caff315e90:7c4c3c7aad7e1bc391275c2bd296e4a62fd014d6725805befe6cf112e781c6ec3b5a89ad653f592945c3a495f738c4b3347e88a5589093ce21213f581afbd8c2",
+      "name": "Pedro López",
+      "unit": "303",
+      "phone": "3155554433",
+      "email": "pedro.lopez@email.com",
+      "active": true
+    }
+  ],
+  "visits": [
+    {
+      "id": "visit_1",
+      "unit": "101",
+      "visitorName": "Ana Torres",
+      "document": "12345678",
+      "purpose": "Visita familiar",
+      "status": "pendiente",
+      "residentId": "res_1",
+      "createdAt": "2025-06-20T10:00:00.000Z",
+      "timeline": []
+    },
+    {
+      "id": "visit_2",
+      "unit": "202",
+      "visitorName": "Luis Ramírez",
+      "document": "87654321",
+      "purpose": "Entrega paquete",
+      "status": "ingreso",
+      "residentId": "res_2",
+      "createdAt": "2025-06-21T14:30:00.000Z",
+      "timeline": [
+        {
+          "status": "ingreso",
+          "at": "2025-06-21T15:00:00.000Z",
+          "by": "staff_1"
+        }
+      ]
+    },
+    {
+      "id": "visit_3",
+      "unit": "101",
+      "visitorName": "Roberto Díaz",
+      "document": "11223344",
+      "purpose": "Técnico internet",
+      "status": "despachado",
+      "residentId": "res_1",
+      "createdAt": "2025-06-19T09:00:00.000Z",
+      "timeline": [
+        {
+          "status": "ingreso",
+          "at": "2025-06-19T09:15:00.000Z",
+          "by": "staff_1"
+        },
+        {
+          "status": "despachado",
+          "at": "2025-06-19T11:30:00.000Z",
+          "by": "staff_1"
+        }
+      ]
+    }
+  ],
+  "reservations": [
+    {
+      "id": "resv_1",
+      "unit": "101",
+      "area": "Salón Comunal",
+      "date": "2025-07-01",
+      "startTime": "18:00",
+      "endTime": "22:00",
+      "status": "pendiente",
+      "residentId": "res_1",
+      "notes": "Cumpleaños familiar",
+      "createdAt": "2025-06-18T12:00:00.000Z"
+    },
+    {
+      "id": "resv_2",
+      "unit": "202",
+      "area": "BBQ",
+      "date": "2025-06-25",
+      "startTime": "12:00",
+      "endTime": "16:00",
+      "status": "aprobada",
+      "residentId": "res_2",
+      "notes": "Almuerzo dominical",
+      "createdAt": "2025-06-15T08:00:00.000Z"
+    }
+  ],
+  "maintenance": [
+    {
+      "id": "maint_1",
+      "unit": "303",
+      "title": "Fuga de agua en baño",
+      "description": "Goteo en la llave del lavamanos",
+      "status": "abierto",
+      "priority": "alta",
+      "residentId": "res_3",
+      "createdAt": "2025-06-22T16:00:00.000Z"
+    },
+    {
+      "id": "maint_2",
+      "unit": "101",
+      "title": "Luz del pasillo",
+      "description": "Bombillo quemado",
+      "status": "en_proceso",
+      "priority": "media",
+      "residentId": "res_1",
+      "createdAt": "2025-06-20T11:00:00.000Z"
+    }
+  ],
+  "announcements": [
+    {
+      "id": "ann_1",
+      "title": "Mantenimiento de ascensores",
+      "body": "El próximo sábado se realizará mantenimiento preventivo de ascensores de 8am a 12pm.",
+      "createdAt": "2025-06-17T09:00:00.000Z",
+      "createdBy": "admin_1"
+    },
+    {
+      "id": "ann_2",
+      "title": "Corte de agua programado",
+      "body": "El martes 25 de junio habrá corte de agua de 6am a 10am por reparación de tubería.",
+      "createdAt": "2025-06-16T14:00:00.000Z",
+      "createdBy": "admin_1"
+    }
+  ],
+  "payments": [
+    {
+      "id": "pay_1",
+      "unit": "101",
+      "concept": "Administración Junio 2025",
+      "amount": 250000,
+      "status": "pagado",
+      "dueDate": "2025-06-05",
+      "paidAt": "2025-06-03T10:00:00.000Z",
+      "residentId": "res_1"
+    },
+    {
+      "id": "pay_2",
+      "unit": "202",
+      "concept": "Administración Junio 2025",
+      "amount": 250000,
+      "status": "pendiente",
+      "dueDate": "2025-06-05",
+      "residentId": "res_2"
+    }
+  ],
+  "correspondence": [],
+  "auditLog": [],
+  "guardShifts": [],
+  "guardShiftPeriods": [],
+  "guardShiftAnchor": null,
+  "notifications": []
+}

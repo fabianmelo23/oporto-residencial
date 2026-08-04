@@ -1,0 +1,35 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Oporto: depurar servidor",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/server.js",
+      "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.env",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Oporto: ejecutar pruebas",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/test/api.test.js",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "DATABASE_FILE": "${workspaceFolder}/data/test-database.local.json",
+        "PORT": "0"
+      },
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Oporto: dev + abrir navegador",
+      "configurations": ["Oporto: depurar servidor"],
+      "preLaunchTask": "Oporto: servidor de desarrollo"
+    }
+  ]
+}

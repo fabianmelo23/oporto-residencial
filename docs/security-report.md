@@ -42,7 +42,7 @@ La aplicación **no usa base de datos SQL**, por lo que **inyección SQL no apli
 ### 1. Sesión sin caducidad — **Corregido**
 Antes la sesión vivía hasta logout o reinicio del servidor.  
 **Ahora:**
-- Inactividad: **60 minutos** (`SESSION_IDLE_MINUTES`)
+- Inactividad: **5 minutos** (`SESSION_IDLE_MINUTES`)
 - Máximo absoluto: **12 horas** (`SESSION_ABSOLUTE_HOURS`)
 - El cliente vuelve al login si recibe `401` / `SESSION_EXPIRED`
 - Cambio/reset de contraseña o baja de usuario invalida sesiones
@@ -103,7 +103,7 @@ Almacenamiento en archivo JSON. No hay consultas SQL que explotar.
 
 | Variable | Default | Uso |
 |----------|---------|-----|
-| `SESSION_IDLE_MINUTES` | `60` | Caducidad por inactividad |
+| `SESSION_IDLE_MINUTES` | `5` | Caducidad por inactividad |
 | `SESSION_ABSOLUTE_HOURS` | `12` | Caducidad máxima |
 | `LOGIN_MAX_ATTEMPTS` | `8` | Intentos fallidos de login |
 | `LOGIN_WINDOW_MINUTES` | `15` | Ventana del rate limit |

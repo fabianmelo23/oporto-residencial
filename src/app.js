@@ -5,6 +5,7 @@ const {
   getDatabase,
   saveDatabase,
   loadDatabase,
+  getDbPath,
   generateId,
   generateGuardShiftSchedule,
   guardShiftsToCsv,
@@ -129,7 +130,15 @@ function getResidentUnit(session) {
 
 // Health
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', service: 'oporto-residencial' });
+  const dbPath = getDbPath();
+  const volumeMount = process.env.RAILWAY_VOLUME_MOUNT_PATH || null;
+  res.json({
+    status: 'ok',
+    service: 'oporto-residencial',
+    dbPath,
+    persistent: Boolean(volumeMount && dbPath.startsWith(volumeMount)),
+    volumeMount,
+  });
 });
 
 app.get('/api/sync', requireAuth(), (req, res) => {

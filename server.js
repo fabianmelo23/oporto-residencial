@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./src/appTimezone');
 const app = require('./src/app');
 const { startAutoGuardShiftScheduler } = require('./src/autoGuardShifts');
 

@@ -538,10 +538,30 @@
       return;
     }
 
+    // Prefiere el vigilante logueado; debe ser el que está de turno (hora Colombia).
+    const normalizeName = (n) =>
+      (n || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
+    if (
+      currentUser?.role === 'staff' &&
+      onDuty.staffName &&
+      normalizeName(currentUser.name) !== normalizeName(onDuty.staffName)
+    ) {
+      alert(
+        `Según la malla, el vigilante en turno ahora es ${onDuty.staffName}. ` +
+          'Solo esa persona puede registrar la entrega en este horario.'
+      );
+      return;
+    }
+
     $('#deliver-corr-id').value = corrId;
     $('#deliver-recipient').value = '';
     $('#deliver-datetime').value = new Date().toLocaleString('es-CO');
-    $('#deliver-staff-name').value = onDuty.staffName;
+    $('#deliver-staff-name').value =
+      (currentUser?.role === 'staff' && currentUser.name) || onDuty.staffName;
     show(modal);
     requestAnimationFrame(() => {
       prepareSignatureCanvas();

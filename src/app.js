@@ -19,6 +19,7 @@ const {
   parseLocalDate,
   getCurrentGuardShift,
   getOnDutyGuard,
+  isGuardOnActiveDuty,
   findStaffByGuardName,
   evaluateStaffLoginAccess,
   getDataRevision,
@@ -1486,15 +1487,19 @@ app.patch('/api/correspondence/:id/deliver', requireAuth('staff'), (req, res) =>
     return res.status(409).json({ error: 'Esta correspondencia ya fue entregada' });
   }
 
-  const onDuty = getOnDutyGuard(db.guardShiftPeriods);
-  if (!onDuty) {
-    return res.status(400).json({ error: 'No hay vigilante en turno en este momento' });
+  const actor = findUserById(req.session.userId, 'staff');
+  if (!actor || actor.active === false) {
+    return res.status(401).json({ error: 'Sesión de vigilante no válida' });
+  }
+  if (!isGuardOnActiveDuty(db.guardShiftPeriods, actor.name)) {
+    const onDuty = getOnDutyGuard(db.guardShiftPeriods);
+    const who = onDuty?.guardName ? ` Ahora está de turno: ${onDuty.guardName}.` : '';
+    return res.status(400).json({
+      error: `No estás en turno en este momento.${who}`,
+    });
   }
 
-  const staffMember = findStaffByGuardName(db.staff, onDuty.guardName);
-  if (!staffMember) {
-    return res.status(400).json({ error: 'El vigilante en turno no está registrado en el sistema' });
-  }
+  const staffMember = findStaffByGuardName(db.staff, actor.name) || actor;
 
   item.status = 'entregado';
   item.recipientName = recipientName.trim();

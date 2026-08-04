@@ -1757,8 +1757,12 @@ input.field-locked:disabled {
 
   .app-header {
     padding: .55rem .7rem;
-    align-items: center;
+    align-items: flex-start;
     gap: .45rem;
+  }
+
+  .header-actions {
+    align-self: center;
   }
 
   .header-left {

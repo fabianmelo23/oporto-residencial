@@ -712,13 +712,10 @@
       return 'Administración';
     }
 
-    const firstName = String(user.name || '')
-      .trim()
-      .split(/\s+/)
-      .filter(Boolean)[0] || user.username || 'usuario';
+    const displayName = String(user.name || user.username || 'usuario').trim();
 
     // Residente y vigilante: "Hola {nombre}"
-    let text = `Hola ${firstName}`;
+    let text = `Hola ${displayName}`;
     if (user.role === 'resident' && user.unit) {
       text += ` · Unidad ${user.unit}`;
     }

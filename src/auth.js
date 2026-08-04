@@ -3,6 +3,20 @@ const { randomBytes, scryptSync, timingSafeEqual } = require('crypto');
 
 const sessions = new Map();
 
+/** Inactividad máxima antes de caducar (por defecto 60 min). */
+function getSessionIdleMs() {
+  const minutes = Number(process.env.SESSION_IDLE_MINUTES);
+  if (Number.isFinite(minutes) && minutes > 0) return minutes * 60 * 1000;
+  return 60 * 60 * 1000;
+}
+
+/** Duración máxima absoluta de la sesión (por defecto 12 h). */
+function getSessionAbsoluteMs() {
+  const hours = Number(process.env.SESSION_ABSOLUTE_HOURS);
+  if (Number.isFinite(hours) && hours > 0) return hours * 60 * 60 * 1000;
+  return 12 * 60 * 60 * 1000;
+}
+
 function hashPassword(password) {
   const salt = randomBytes(16);
   const hash = scryptSync(password, salt, 64);
@@ -22,6 +36,7 @@ function verifyPassword(password, storedHash) {
 
 function createSession(user) {
   const token = crypto.randomBytes(32).toString('hex');
+  const now = Date.now();
   sessions.set(token, {
     userId: user.id,
     role: user.role,
@@ -31,22 +46,64 @@ function createSession(user) {
       ? (user.adminLevel === 'super' ? 'super' : 'admin')
       : undefined,
     mustChangePassword: user.role === 'resident' ? Boolean(user.mustChangePassword) : false,
-    createdAt: new Date().toISOString(),
+    createdAt: new Date(now).toISOString(),
+    lastActivityAt: now,
   });
   return token;
 }
 
-function getSession(token) {
+function isSessionExpired(session, now = Date.now()) {
+  if (!session) return true;
+  const createdMs = session.createdAt ? Date.parse(session.createdAt) : NaN;
+  const lastActivity = Number(session.lastActivityAt) || createdMs;
+  if (!Number.isFinite(createdMs) || !Number.isFinite(lastActivity)) return true;
+  if (now - createdMs > getSessionAbsoluteMs()) return true;
+  if (now - lastActivity > getSessionIdleMs()) return true;
+  return false;
+}
+
+function touchSession(session, now = Date.now()) {
+  if (session) session.lastActivityAt = now;
+}
+
+function getSession(token, { touch = false } = {}) {
   if (!token) return null;
-  return sessions.get(token) || null;
+  const session = sessions.get(token);
+  if (!session) return null;
+  if (isSessionExpired(session)) {
+    sessions.delete(token);
+    return null;
+  }
+  if (touch) touchSession(session);
+  return session;
 }
 
 function destroySession(token) {
   if (token) sessions.delete(token);
 }
 
+function destroySessionsForUser(userId, { exceptToken } = {}) {
+  if (!userId) return;
+  for (const [token, session] of sessions.entries()) {
+    if (session.userId === userId && token !== exceptToken) {
+      sessions.delete(token);
+    }
+  }
+}
+
 function clearSessions() {
   sessions.clear();
+}
+
+function purgeExpiredSessions(now = Date.now()) {
+  let removed = 0;
+  for (const [token, session] of sessions.entries()) {
+    if (isSessionExpired(session, now)) {
+      sessions.delete(token);
+      removed += 1;
+    }
+  }
+  return removed;
 }
 
 function parseCookies(req) {
@@ -64,9 +121,12 @@ function requireAuth(roles) {
   return (req, res, next) => {
     const cookies = parseCookies(req);
     const token = cookies.session || req.headers['x-session-token'];
-    const session = getSession(token);
+    const session = getSession(token, { touch: true });
     if (!session) {
-      return res.status(401).json({ error: 'No autenticado' });
+      return res.status(401).json({
+        error: 'Sesión expirada o no autenticado. Inicia sesión de nuevo.',
+        code: 'SESSION_EXPIRED',
+      });
     }
     if (allowed && !allowed.includes(session.role)) {
       return res.status(403).json({ error: 'Acceso denegado' });
@@ -146,8 +206,14 @@ module.exports = {
   verifyPassword,
   createSession,
   getSession,
+  isSessionExpired,
+  touchSession,
   destroySession,
+  destroySessionsForUser,
   clearSessions,
+  purgeExpiredSessions,
+  getSessionIdleMs,
+  getSessionAbsoluteMs,
   parseCookies,
   requireAuth,
   requireSuperAdmin,

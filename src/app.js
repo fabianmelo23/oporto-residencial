@@ -30,6 +30,12 @@ const {
   verifyPassword,
   createSession,
   destroySession,
+  destroySessionsForUser,
+  purgeExpiredSessions,
+  getSession,
+  parseCookies,
+  getSessionIdleMs,
+  getSessionAbsoluteMs,
   requireAuth,
   requireSuperAdmin,
   validateResidentPassword,
@@ -48,7 +54,37 @@ const {
 
 const app = express();
 
-app.use(cors({ origin: true, credentials: true }));
+app.disable('x-powered-by');
+
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+  if (process.env.NODE_ENV === 'production' || process.env.FORCE_SECURE_HEADERS === 'true') {
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  }
+  next();
+});
+
+const allowedOrigins = (process.env.CORS_ORIGINS || '')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+app.use(
+  cors({
+    origin(origin, callback) {
+      // Same-origin / curl / server-to-server (no Origin header)
+      if (!origin) return callback(null, true);
+      if (!allowedOrigins.length) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(null, false);
+    },
+    credentials: true,
+  })
+);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use(
@@ -58,12 +94,83 @@ app.use(
 
 loadDatabase();
 
+// Limpieza periódica de sesiones caducadas
+setInterval(() => {
+  purgeExpiredSessions();
+}, 5 * 60 * 1000).unref?.();
+
+const loginAttempts = new Map();
+
+function getClientIp(req) {
+  const xf = req.headers['x-forwarded-for'];
+  if (typeof xf === 'string' && xf.trim()) return xf.split(',')[0].trim();
+  return req.socket?.remoteAddress || 'unknown';
+}
+
+function getLoginRateLimit() {
+  const max = Number(process.env.LOGIN_MAX_ATTEMPTS);
+  const windowMin = Number(process.env.LOGIN_WINDOW_MINUTES);
+  return {
+    maxAttempts: Number.isFinite(max) && max > 0 ? max : 8,
+    windowMs: (Number.isFinite(windowMin) && windowMin > 0 ? windowMin : 15) * 60 * 1000,
+  };
+}
+
+function checkLoginRateLimit(key) {
+  const { maxAttempts, windowMs } = getLoginRateLimit();
+  const now = Date.now();
+  let entry = loginAttempts.get(key);
+  if (!entry || now - entry.windowStart > windowMs) {
+    entry = { windowStart: now, failures: 0 };
+    loginAttempts.set(key, entry);
+  }
+  if (entry.failures >= maxAttempts) {
+    const retryAfterSec = Math.ceil((entry.windowStart + windowMs - now) / 1000);
+    return { allowed: false, retryAfterSec: Math.max(retryAfterSec, 1) };
+  }
+  return { allowed: true };
+}
+
+function recordLoginFailure(key) {
+  const { windowMs } = getLoginRateLimit();
+  const now = Date.now();
+  let entry = loginAttempts.get(key);
+  if (!entry || now - entry.windowStart > windowMs) {
+    entry = { windowStart: now, failures: 0 };
+  }
+  entry.failures += 1;
+  loginAttempts.set(key, entry);
+}
+
+function clearLoginFailures(key) {
+  loginAttempts.delete(key);
+}
+
 function setSessionCookie(res, token) {
-  res.setHeader('Set-Cookie', `session=${token}; Path=/; HttpOnly; SameSite=Lax`);
+  const maxAgeSec = Math.floor(getSessionAbsoluteMs() / 1000);
+  const secure =
+    process.env.COOKIE_SECURE === 'true'
+    || process.env.NODE_ENV === 'production'
+    || process.env.RAILWAY_ENVIRONMENT;
+  const parts = [
+    `session=${token}`,
+    'Path=/',
+    'HttpOnly',
+    'SameSite=Lax',
+    `Max-Age=${maxAgeSec}`,
+  ];
+  if (secure) parts.push('Secure');
+  res.setHeader('Set-Cookie', parts.join('; '));
 }
 
 function clearSessionCookie(res) {
-  res.setHeader('Set-Cookie', 'session=; Path=/; HttpOnly; Max-Age=0');
+  const secure =
+    process.env.COOKIE_SECURE === 'true'
+    || process.env.NODE_ENV === 'production'
+    || process.env.RAILWAY_ENVIRONMENT;
+  const parts = ['session=', 'Path=/', 'HttpOnly', 'SameSite=Lax', 'Max-Age=0'];
+  if (secure) parts.push('Secure');
+  res.setHeader('Set-Cookie', parts.join('; '));
 }
 
 function findUserByUsername(username) {
@@ -129,17 +236,27 @@ function getResidentUnit(session) {
   return resident ? resident.unit : null;
 }
 
-// Health
+// Health (público: sin rutas internas). Detalle de DB solo con ?detail=1 y sesión admin.
 app.get('/health', (req, res) => {
-  const dbPath = getDbPath();
-  const volumeMount = process.env.RAILWAY_VOLUME_MOUNT_PATH || null;
-  res.json({
+  const payload = {
     status: 'ok',
     service: 'oporto-residencial',
-    dbPath,
-    persistent: Boolean(volumeMount && dbPath.startsWith(volumeMount)),
-    volumeMount,
-  });
+  };
+  if (req.query.detail === '1') {
+    const cookies = parseCookies(req);
+    const token = cookies.session || req.headers['x-session-token'];
+    const session = getSession(token);
+    if (session?.role === 'admin') {
+      const dbPath = getDbPath();
+      const volumeMount = process.env.RAILWAY_VOLUME_MOUNT_PATH || null;
+      payload.dbPath = dbPath;
+      payload.persistent = Boolean(volumeMount && dbPath.startsWith(volumeMount));
+      payload.volumeMount = volumeMount;
+      payload.sessionIdleMinutes = Math.round(getSessionIdleMs() / 60000);
+      payload.sessionAbsoluteHours = Math.round(getSessionAbsoluteMs() / 3600000);
+    }
+  }
+  res.json(payload);
 });
 
 app.get('/api/sync', requireAuth(), (req, res) => {
@@ -218,10 +335,24 @@ app.post('/api/auth/login', (req, res) => {
   if (!username || !password) {
     return res.status(400).json({ error: 'Usuario y contraseña requeridos' });
   }
+
+  const rateKey = `${getClientIp(req)}:${String(username).trim().toLowerCase()}`;
+  const rate = checkLoginRateLimit(rateKey);
+  if (!rate.allowed) {
+    res.setHeader('Retry-After', String(rate.retryAfterSec));
+    return res.status(429).json({
+      error: 'Demasiados intentos de inicio de sesión. Espera unos minutos e inténtalo de nuevo.',
+      code: 'LOGIN_RATE_LIMITED',
+      retryAfterSec: rate.retryAfterSec,
+    });
+  }
+
   const user = findUserByUsername(username);
   if (!user || !verifyPassword(password, user.passwordHash)) {
+    recordLoginFailure(rateKey);
     return res.status(401).json({ error: 'Credenciales inválidas' });
   }
+  clearLoginFailures(rateKey);
 
   // Demo: by default staff can log in regardless of the shift mesh.
   // Set ENFORCE_STAFF_DUTY=true to restore on-duty-only login.
@@ -333,6 +464,7 @@ app.post('/api/auth/change-password', requireAuth('resident'), (req, res) => {
   resident.mustChangePassword = false;
   req.session.mustChangePassword = false;
   saveDatabase(db);
+  destroySessionsForUser(resident.id, { exceptToken: req.sessionToken });
 
   appendAudit({
     actorId: req.session.userId,
@@ -438,6 +570,10 @@ app.patch('/api/residents/:id', requireAuth('admin'), (req, res) => {
   if (req.body.tempPassword) {
     db.residents[idx].passwordHash = hashPassword(req.body.tempPassword);
     db.residents[idx].mustChangePassword = true;
+    destroySessionsForUser(db.residents[idx].id);
+  }
+  if (req.body.active === false) {
+    destroySessionsForUser(db.residents[idx].id);
   }
   saveDatabase(db);
   appendAudit({
@@ -465,6 +601,7 @@ app.patch('/api/residents/:id/password', requireAuth('admin'), (req, res) => {
   resident.passwordHash = hashPassword(String(password).trim());
   resident.mustChangePassword = true;
   saveDatabase(db);
+  destroySessionsForUser(resident.id);
 
   appendAudit({
     actorId: req.session.userId,
@@ -485,6 +622,7 @@ app.delete('/api/residents/:id', requireAuth('admin'), (req, res) => {
   const idx = db.residents.findIndex((r) => r.id === req.params.id);
   if (idx === -1) return res.status(404).json({ error: 'Residente no encontrado' });
   const removed = db.residents.splice(idx, 1)[0];
+  destroySessionsForUser(removed.id);
   saveDatabase(db);
   appendAudit({
     actorId: req.session.userId,
@@ -1332,6 +1470,7 @@ app.patch('/api/staff/:id/status', requireAuth('admin'), (req, res) => {
   const member = db.staff.find((s) => s.id === req.params.id);
   if (!member) return res.status(404).json({ error: 'Personal no encontrado' });
   member.active = req.body.active !== false;
+  if (!member.active) destroySessionsForUser(member.id);
   saveDatabase(db);
   appendAudit({
     actorId: req.session.userId,
@@ -1354,6 +1493,7 @@ app.patch('/api/staff/:id/password', requireAuth('admin'), (req, res) => {
   if (!member) return res.status(404).json({ error: 'Personal no encontrado' });
   member.passwordHash = hashPassword(password);
   saveDatabase(db);
+  destroySessionsForUser(member.id);
   res.json({ ok: true });
 });
 
@@ -1362,6 +1502,7 @@ app.delete('/api/staff/:id', requireAuth('admin'), requireSuperAdmin(), (req, re
   const idx = db.staff.findIndex((s) => s.id === req.params.id);
   if (idx === -1) return res.status(404).json({ error: 'Personal no encontrado' });
   const removed = db.staff.splice(idx, 1)[0];
+  destroySessionsForUser(removed.id);
   saveDatabase(db);
   appendAudit({
     actorId: req.session.userId,

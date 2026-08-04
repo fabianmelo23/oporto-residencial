@@ -336,11 +336,18 @@ describe('Residents', () => {
     );
     assert.equal(staffDenied.status, 403);
 
+    // Tras reset, las sesiones previas del residente quedan invalidadas.
+    const residentRelogin = await request('POST', '/api/auth/login', {
+      username: 'juan101',
+      password: 'OportoTemp2',
+    });
+    assert.equal(residentRelogin.status, 200);
+
     const residentDenied = await request(
       'PATCH',
       '/api/residents/res_1/password',
       { password: 'NoDebe1' },
-      residentToken
+      residentRelogin.data.token
     );
     assert.equal(residentDenied.status, 403);
   });
@@ -1680,5 +1687,79 @@ describe('Payments and maintenance', () => {
   it('resident sees scoped payments', async () => {
     const res = await request('GET', '/api/payments', null, residentToken);
     assert.ok(res.data.every((p) => p.unit === '101'));
+  });
+});
+
+describe('Session expiry and login rate limit', () => {
+  const {
+    createSession,
+    getSession,
+    isSessionExpired,
+    clearSessions,
+  } = require('../src/auth');
+
+  it('expires idle sessions', () => {
+    clearSessions();
+    const prevIdle = process.env.SESSION_IDLE_MINUTES;
+    const prevAbs = process.env.SESSION_ABSOLUTE_HOURS;
+    process.env.SESSION_IDLE_MINUTES = '1';
+    process.env.SESSION_ABSOLUTE_HOURS = '12';
+    try {
+      const token = createSession({
+        id: 'u_test',
+        role: 'admin',
+        username: 'admin',
+        name: 'Admin',
+        adminLevel: 'admin',
+      });
+      const session = getSession(token);
+      assert.ok(session);
+      session.lastActivityAt = Date.now() - 2 * 60 * 1000;
+      assert.equal(isSessionExpired(session), true);
+      assert.equal(getSession(token), null);
+    } finally {
+      if (prevIdle === undefined) delete process.env.SESSION_IDLE_MINUTES;
+      else process.env.SESSION_IDLE_MINUTES = prevIdle;
+      if (prevAbs === undefined) delete process.env.SESSION_ABSOLUTE_HOURS;
+      else process.env.SESSION_ABSOLUTE_HOURS = prevAbs;
+      clearSessions();
+    }
+  });
+
+  it('rate-limits repeated failed logins', async () => {
+    const prevMax = process.env.LOGIN_MAX_ATTEMPTS;
+    const prevWindow = process.env.LOGIN_WINDOW_MINUTES;
+    process.env.LOGIN_MAX_ATTEMPTS = '3';
+    process.env.LOGIN_WINDOW_MINUTES = '15';
+    try {
+      // Requiere recargar límites leídos en cada request (funciones leen env al vuelo)
+      let last;
+      for (let i = 0; i < 3; i += 1) {
+        last = await request('POST', '/api/auth/login', {
+          username: 'admin',
+          password: 'wrong-password-rate-limit',
+        });
+        assert.equal(last.status, 401);
+      }
+      last = await request('POST', '/api/auth/login', {
+        username: 'admin',
+        password: 'wrong-password-rate-limit',
+      });
+      assert.equal(last.status, 429);
+      assert.equal(last.data.code, 'LOGIN_RATE_LIMITED');
+    } finally {
+      if (prevMax === undefined) delete process.env.LOGIN_MAX_ATTEMPTS;
+      else process.env.LOGIN_MAX_ATTEMPTS = prevMax;
+      if (prevWindow === undefined) delete process.env.LOGIN_WINDOW_MINUTES;
+      else process.env.LOGIN_WINDOW_MINUTES = prevWindow;
+    }
+  });
+
+  it('public /health does not expose database path', async () => {
+    const res = await request('GET', '/health');
+    assert.equal(res.status, 200);
+    assert.equal(res.data.status, 'ok');
+    assert.equal(res.data.dbPath, undefined);
+    assert.equal(res.data.volumeMount, undefined);
   });
 });

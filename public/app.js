@@ -67,6 +67,26 @@
         currentUser.mustChangePassword = true;
         openForcePasswordGate();
       }
+      if (
+        res.status === 401
+        && sessionToken
+        && path !== '/api/auth/login'
+        && path !== '/api/auth/logout'
+      ) {
+        const msg = (data && data.error) || 'Sesión expirada. Inicia sesión de nuevo.';
+        sessionToken = '';
+        localStorage.removeItem('sessionToken');
+        currentUser = null;
+        if (typeof stopSessionLiveSync === 'function') stopSessionLiveSync();
+        else stopLiveSync();
+        show($('#login-screen'));
+        hide($('#app-shell'));
+        const errEl = $('#login-error');
+        if (errEl) {
+          errEl.textContent = msg;
+          show(errEl);
+        }
+      }
       throw new Error((data && data.error) || res.statusText);
     }
     return data;
@@ -1189,8 +1209,8 @@
       </details>
       <table><thead><tr><th>Unidad</th><th>Título</th><th>Prioridad</th><th>Estado</th><th></th></tr></thead>
       <tbody>${items.map((m) => `<tr>
-        <td>${m.unit}</td><td>${m.title}</td><td>${m.priority}</td><td>${badge(m.status)}</td>
-        <td><select data-maint-status="${m.id}">
+        <td>${escapeHtml(m.unit)}</td><td>${escapeHtml(m.title)}</td><td>${escapeHtml(m.priority)}</td><td>${badge(m.status)}</td>
+        <td><select data-maint-status="${escapeHtml(m.id)}">
           <option value="abierto" ${m.status==='abierto'?'selected':''}>abierto</option>
           <option value="en_proceso" ${m.status==='en_proceso'?'selected':''}>en_proceso</option>
           <option value="cerrado" ${m.status==='cerrado'?'selected':''}>cerrado</option>
@@ -1212,10 +1232,10 @@
       </details>
       <table><thead><tr><th>Unidad</th><th>Concepto</th><th>Monto</th><th>Vence</th><th>Estado</th><th></th></tr></thead>
       <tbody>${payments.map((p) => `<tr>
-        <td>${p.unit}</td><td>${p.concept}</td><td>$${p.amount.toLocaleString()}</td>
-        <td>${p.dueDate}</td><td>${badge(p.status)}</td>
-        <td>${p.status === 'pendiente' ? `<button class="btn btn-success btn-sm" data-pay="${p.id}">Marcar pagado</button>` : ''}
-        <button class="btn btn-danger btn-sm" data-delete-pay="${p.id}">Eliminar</button></td>
+        <td>${escapeHtml(p.unit)}</td><td>${escapeHtml(p.concept)}</td><td>$${Number(p.amount).toLocaleString()}</td>
+        <td>${escapeHtml(p.dueDate)}</td><td>${badge(p.status)}</td>
+        <td>${p.status === 'pendiente' ? `<button class="btn btn-success btn-sm" data-pay="${escapeHtml(p.id)}">Marcar pagado</button>` : ''}
+        <button class="btn btn-danger btn-sm" data-delete-pay="${escapeHtml(p.id)}">Eliminar</button></td>
       </tr>`).join('')}</tbody></table></div>`;
   }
 
@@ -2330,15 +2350,15 @@
     const card = (r) => `<article class="resv-item">
       <div class="resv-item-main">
         <div class="resv-item-top">
-          <strong class="resv-area">${r.area}</strong>
+          <strong class="resv-area">${escapeHtml(r.area)}</strong>
           ${badge(r.status)}
         </div>
         <div class="resv-meta">
           <span>${formatReservationDate(r.date)}</span>
           <span class="resv-dot">·</span>
-          <span>${r.startTime} – ${r.endTime}</span>
+          <span>${escapeHtml(r.startTime)} – ${escapeHtml(r.endTime)}</span>
         </div>
-        ${r.notes ? `<p class="resv-notes">${r.notes}</p>` : ''}
+        ${r.notes ? `<p class="resv-notes">${escapeHtml(r.notes)}</p>` : ''}
       </div>
     </article>`;
 
@@ -2843,12 +2863,14 @@
             results.innerHTML = '<li>Sin resultados</li>';
           } else {
             results.innerHTML = data.map((r) => `<li>
-              <span>${r.name} — Unidad ${r.unit}</span>
-              <button type="button" class="btn btn-primary btn-sm" data-select-resident='${JSON.stringify(r)}'>Seleccionar</button>
+              <span>${escapeHtml(r.name)} — Unidad ${escapeHtml(r.unit)}</span>
+              <button type="button" class="btn btn-primary btn-sm" data-select-resident="${escapeHtml(r.id)}">Seleccionar</button>
             </li>`).join('');
             $$('[data-select-resident]').forEach((btn) => {
               btn.onclick = () => {
-                selectedResident = JSON.parse(btn.dataset.selectResident);
+                const id = btn.dataset.selectResident;
+                selectedResident = data.find((row) => row.id === id) || null;
+                if (!selectedResident) return;
                 $('#corr-selected').textContent = `Seleccionado: ${selectedResident.name} (Unidad ${selectedResident.unit})`;
                 show($('#corr-selected'));
                 $('#corr-submit').disabled = false;

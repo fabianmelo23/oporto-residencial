@@ -774,21 +774,25 @@
 
   function renderUserInfo(user) {
     const el = $('#user-info');
+    const shiftEl = $('#user-shift');
     if (!el) return;
     const isSuper = user && user.role === 'admin' && user.adminLevel === 'super';
     const isStaff = user && user.role === 'staff';
     el.classList.toggle('is-super-admin', Boolean(isSuper));
-    el.classList.toggle('has-staff-shift', Boolean(isStaff));
+    el.classList.remove('has-staff-shift');
+
+    if (shiftEl) {
+      if (isStaff) {
+        shiftEl.textContent = formatStaffShiftLine(user);
+        shiftEl.classList.remove('hidden');
+      } else {
+        shiftEl.textContent = '';
+        shiftEl.classList.add('hidden');
+      }
+    }
+
     if (isSuper) {
       el.innerHTML = 'Hola <span class="user-info-super">Súper Admin</span>';
-      return;
-    }
-    if (isStaff) {
-      const name = escapeHtml(formatUserInfo(user));
-      const shift = escapeHtml(formatStaffShiftLine(user));
-      el.innerHTML =
-        `<span class="user-info-name">${name}</span>` +
-        `<span class="user-info-shift">${shift}</span>`;
       return;
     }
     el.textContent = formatUserInfo(user);

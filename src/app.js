@@ -699,7 +699,7 @@ app.get('/api/visits', requireAuth(), (req, res) => {
 });
 
 function publicVisitItem(visit, viewerRole = null) {
-  const { visitorSignature, ...rest } = visit;
+  const { visitorSignature, visitorPhone, ...rest } = visit;
   let pet = null;
   let hasPetPhoto = false;
   if (visit.pet && typeof visit.pet === 'object') {
@@ -708,12 +708,15 @@ function publicVisitItem(visit, viewerRole = null) {
     hasPetPhoto = Boolean(photo);
   }
   const canSeeSignature = viewerRole !== 'staff';
+  // El vigilante no debe ver el teléfono del visitante (dato sensible de contacto).
+  const canSeeVisitorPhone = viewerRole !== 'staff';
   return {
     ...rest,
     pet,
     hasPet: Boolean(visit.hasPet),
     hasVisitorSignature: canSeeSignature ? Boolean(visitorSignature) : false,
     hasPetPhoto,
+    ...(canSeeVisitorPhone ? { visitorPhone: visitorPhone || '' } : {}),
   };
 }
 

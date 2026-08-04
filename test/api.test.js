@@ -600,12 +600,23 @@ describe('Visits', () => {
     assert.ok(staffItem);
     assert.equal(staffItem.hasPetPhoto, true);
     assert.equal(staffItem.hasVisitorSignature, false);
+    assert.equal(staffItem.visitorPhone, undefined);
 
     const staffSig = await request('GET', `/api/visits/${visitId}/signature`, null, staffToken);
     assert.equal(staffSig.status, 403);
 
     const staffPhoto = await request('GET', `/api/visits/${visitId}/pet-photo`, null, staffToken);
     assert.equal(staffPhoto.status, 200);
+
+    const adminList = await request('GET', '/api/visits', null, adminToken);
+    const adminItem = adminList.data.find((v) => v.id === visitId);
+    assert.ok(adminItem);
+    assert.equal(adminItem.visitorPhone, '3002223344');
+
+    const residentList = await request('GET', '/api/visits', null, residentToken);
+    const residentItem = residentList.data.find((v) => v.id === visitId);
+    assert.ok(residentItem);
+    assert.equal(residentItem.visitorPhone, '3002223344');
 
     const adminSig = await request('GET', `/api/visits/${visitId}/signature`, null, adminToken);
     assert.equal(adminSig.status, 200);

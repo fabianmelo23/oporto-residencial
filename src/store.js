@@ -6,8 +6,42 @@ const DEFAULT_DB_FILE = path.join(__dirname, '..', 'data', 'database.local.json'
 
 function getDbPath() {
   const envPath = process.env.DATABASE_FILE;
-  if (!envPath) return DEFAULT_DB_FILE;
-  return path.isAbsolute(envPath) ? envPath : path.join(process.cwd(), envPath);
+  if (envPath) {
+    return path.isAbsolute(envPath) ? envPath : path.join(process.cwd(), envPath);
+  }
+
+  // Railway persistent volume (survives redeploys). Without this, data is lost on every deploy.
+  const volumeMount = process.env.RAILWAY_VOLUME_MOUNT_PATH;
+  if (volumeMount) {
+    return path.join(volumeMount, 'database.json');
+  }
+
+  return DEFAULT_DB_FILE;
+}
+
+function isRailwayRuntime() {
+  return Boolean(
+    process.env.RAILWAY_ENVIRONMENT
+    || process.env.RAILWAY_PROJECT_ID
+    || process.env.RAILWAY_SERVICE_ID
+  );
+}
+
+function warnIfDatabaseNotPersistent(dbPath) {
+  if (!isRailwayRuntime()) return;
+  const onVolume = Boolean(process.env.RAILWAY_VOLUME_MOUNT_PATH)
+    && dbPath.startsWith(process.env.RAILWAY_VOLUME_MOUNT_PATH);
+  const absoluteCustom = process.env.DATABASE_FILE
+    && path.isAbsolute(process.env.DATABASE_FILE)
+    && !process.env.DATABASE_FILE.includes('/app/')
+    && !process.env.DATABASE_FILE.startsWith('./');
+  if (onVolume || absoluteCustom) return;
+
+  console.error(
+    '[CRITICO] Railway está usando almacenamiento efímero. '
+    + 'Los residentes, visitas, reservas y demás datos se BORRARÁN en el próximo deploy. '
+    + 'Crea un Volume en Railway (mount path /data) y define DATABASE_FILE=/data/database.json.'
+  );
 }
 
 function normalizeDatabase(db) {
@@ -107,6 +141,8 @@ function notifyDataChange() {
 
 function loadDatabase() {
   dbPath = ensureDatabase();
+  warnIfDatabaseNotPersistent(dbPath);
+  console.log(`[db] Usando archivo: ${dbPath}`);
   const raw = fs.readFileSync(dbPath, 'utf8');
   cachedDb = normalizeDatabase(JSON.parse(raw));
   return cachedDb;
@@ -713,6 +749,8 @@ function parseGuardShiftsFromCsv(csvText) {
 
 module.exports = {
   getDbPath,
+  isRailwayRuntime,
+  warnIfDatabaseNotPersistent,
   normalizeDatabase,
   ensureDatabase,
   loadDatabase,

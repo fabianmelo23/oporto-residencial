@@ -57,3 +57,13 @@ npm test
 |-----------------|--------------------------------|--------------------------------|
 | `PORT`          | `3000`                         | Puerto del servidor            |
 | `DATABASE_FILE` | `./data/database.local.json`   | Archivo JSON de persistencia   |
+
+### Railway (importante)
+
+En Railway el disco del contenedor es **efímero**: cada deploy borra los datos operativos si no hay volumen.
+
+1. En el servicio, crea un **Volume** con mount path `/data`.
+2. Define la variable `DATABASE_FILE=/data/database.json`.
+3. Redesplegar. A partir de ahí residentes, visitas, reservas, etc. sobreviven a los deploys.
+
+Si existe `RAILWAY_VOLUME_MOUNT_PATH`, la app también usará automáticamente `database.json` dentro de ese volumen.

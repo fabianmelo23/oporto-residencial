@@ -5,7 +5,7 @@ const path = require('path');
 const http = require('http');
 
 const TEST_DB = path.join(__dirname, '..', 'data', 'test-database.local.json');
-const SEED_FILE = path.join(__dirname, '..', 'data', 'database.json');
+const SEED_FILE = path.join(__dirname, '..', 'data', 'database.test-seed.json');
 
 let server;
 let baseUrl;

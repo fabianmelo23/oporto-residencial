@@ -431,6 +431,67 @@
     return sessionToken ? `${base}?token=${encodeURIComponent(sessionToken)}` : base;
   }
 
+  function openMediaPreview(url, title = 'Vista previa') {
+    const modal = $('#media-preview-modal');
+    const img = $('#media-preview-image');
+    const loading = $('#media-preview-loading');
+    const errEl = $('#media-preview-error');
+    const titleEl = $('#media-preview-title');
+    if (!modal || !img) {
+      window.open(url, '_blank');
+      return;
+    }
+
+    if (titleEl) titleEl.textContent = title;
+    hide(img);
+    hide(errEl);
+    if (errEl) errEl.textContent = '';
+    show(loading);
+    img.removeAttribute('src');
+    show(modal);
+
+    const preview = new Image();
+    preview.onload = () => {
+      img.src = preview.src;
+      hide(loading);
+      show(img);
+    };
+    preview.onerror = () => {
+      hide(loading);
+      if (errEl) {
+        errEl.textContent = 'No se pudo cargar la imagen';
+        show(errEl);
+      }
+    };
+    preview.src = url;
+  }
+
+  function closeMediaPreview() {
+    const modal = $('#media-preview-modal');
+    const img = $('#media-preview-image');
+    hide(modal);
+    if (img) {
+      hide(img);
+      img.removeAttribute('src');
+    }
+    hide($('#media-preview-loading'));
+    hide($('#media-preview-error'));
+  }
+
+  function bindMediaPreviewModal() {
+    const modal = $('#media-preview-modal');
+    if (!modal || modal.dataset.bound) return;
+    modal.dataset.bound = '1';
+    $$('[data-close-media-preview]').forEach((el) => {
+      el.addEventListener('click', closeMediaPreview);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+        closeMediaPreview();
+      }
+    });
+  }
+
   async function openDeliverModal(corrId) {
     const modal = $('#deliver-modal');
     if (!modal) return;
@@ -1426,10 +1487,16 @@
     };
 
     $$('[data-audit-photo], [data-corr-photo]').forEach((btn) => {
-      btn.onclick = () => window.open(corrMediaUrl(btn.dataset.auditPhoto || btn.dataset.corrPhoto, 'photo'), '_blank');
+      btn.onclick = () => openMediaPreview(
+        corrMediaUrl(btn.dataset.auditPhoto || btn.dataset.corrPhoto, 'photo'),
+        'Imagen del producto'
+      );
     });
     $$('[data-corr-signature]').forEach((btn) => {
-      btn.onclick = () => window.open(corrMediaUrl(btn.dataset.corrSignature, 'signature'), '_blank');
+      btn.onclick = () => openMediaPreview(
+        corrMediaUrl(btn.dataset.corrSignature, 'signature'),
+        'Firma de entrega'
+      );
     });
 
     const genShifts = $('#generate-shifts');
@@ -1878,10 +1945,16 @@
 
   function bindVisitMediaButtons() {
     $$('[data-visit-pet-photo]').forEach((btn) => {
-      btn.onclick = () => window.open(visitMediaUrl(btn.dataset.visitPetPhoto, 'pet-photo'), '_blank');
+      btn.onclick = () => openMediaPreview(
+        visitMediaUrl(btn.dataset.visitPetPhoto, 'pet-photo'),
+        'Foto de mascota'
+      );
     });
     $$('[data-visit-signature]').forEach((btn) => {
-      btn.onclick = () => window.open(visitMediaUrl(btn.dataset.visitSignature, 'signature'), '_blank');
+      btn.onclick = () => openMediaPreview(
+        visitMediaUrl(btn.dataset.visitSignature, 'signature'),
+        'Firma del visitante'
+      );
     });
   }
 
@@ -2516,10 +2589,10 @@
     if (btnNew) btnNew.onclick = () => showReservationCalendar();
 
     $$('[data-corr-photo]').forEach((btn) => {
-      btn.onclick = () => window.open(corrMediaUrl(btn.dataset.corrPhoto, 'photo'), '_blank');
+      btn.onclick = () => openMediaPreview(corrMediaUrl(btn.dataset.corrPhoto, 'photo'), 'Imagen del producto');
     });
     $$('[data-corr-signature]').forEach((btn) => {
-      btn.onclick = () => window.open(corrMediaUrl(btn.dataset.corrSignature, 'signature'), '_blank');
+      btn.onclick = () => openMediaPreview(corrMediaUrl(btn.dataset.corrSignature, 'signature'), 'Firma de entrega');
     });
     bindVisitMediaButtons();
   }
@@ -2682,7 +2755,7 @@
     };
 
     $$('[data-corr-photo]').forEach((btn) => {
-      btn.onclick = () => window.open(corrMediaUrl(btn.dataset.corrPhoto, 'photo'), '_blank');
+      btn.onclick = () => openMediaPreview(corrMediaUrl(btn.dataset.corrPhoto, 'photo'), 'Imagen del producto');
     });
 
     $$('[data-deliver-corr]').forEach((btn) => {
@@ -2761,6 +2834,7 @@
 
   // Init
   bindDeliverModalEvents();
+  bindMediaPreviewModal();
   bindPasswordChangeModal();
   bindAdminResidentPasswordModal();
   bindReservationModalEvents();

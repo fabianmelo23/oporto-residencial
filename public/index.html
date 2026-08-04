@@ -371,6 +371,21 @@
     </div>
   </div>
 
+  <div id="media-preview-modal" class="modal media-preview-modal hidden" role="dialog" aria-labelledby="media-preview-title" aria-modal="true">
+    <div class="modal-backdrop" data-close-media-preview></div>
+    <div class="modal-card media-preview-card">
+      <div class="media-preview-head">
+        <h3 id="media-preview-title">Vista previa</h3>
+        <button type="button" class="btn btn-sm btn-secondary" data-close-media-preview aria-label="Cerrar">Cerrar</button>
+      </div>
+      <div class="media-preview-body">
+        <p id="media-preview-loading" class="media-preview-loading">Cargando…</p>
+        <img id="media-preview-image" class="media-preview-image hidden" alt="Vista previa">
+        <p id="media-preview-error" class="error hidden"></p>
+      </div>
+    </div>
+  </div>
+
   <script src="/app.js"></script>
 </body>
 </html>

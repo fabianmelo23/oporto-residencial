@@ -23,7 +23,7 @@
   ],
   "staff": [
     {
-      "id": "staff_f_melo",
+      "id": "staff_1782331411132_nuotcw",
       "username": "f.melo",
       "passwordHash": "f33dccd71bb0bcf633eb59d27ca24ad1:06fc81fbdedd7bd3c41e7dd551f9b306770390c6f2e2c7a2f75a02c3be06041448f17e949af931000fa355bf7cd2013eb3731d4f63118b2fb1b67377611f2160",
       "name": "Fabian Melo",
@@ -32,7 +32,7 @@
       "active": true
     },
     {
-      "id": "staff_y_obando",
+      "id": "staff_1782332651533_ast1we",
       "username": "y.obando",
       "passwordHash": "0c751e83655e642dacc88eab9e2b1ed8:02a294650768c499b99ce8d6433a4c4deea44eff073d5e43930cbbedc84d2154e01dc1e63d5f3e41f1c76fecb18f44296c3f335ca803faf4ea6a192c852bbbc3",
       "name": "Yeison Obando",
@@ -41,7 +41,7 @@
       "active": true
     },
     {
-      "id": "staff_j_bernal",
+      "id": "staff_1784143562706_xescuk",
       "username": "j.bernal",
       "passwordHash": "388c179b1ab4ff2a282e19da0674e09e:e0abe1fb742a2ff364c653a2f4f44340b8a200eb4434e529f7e98e41b103a92395c6361cdca75ffc31972f91e53553572dbcd349601a8da4a25997790fa65042",
       "name": "Jorge Bernal",
@@ -50,49 +50,7 @@
       "active": true
     }
   ],
-  "residents": [
-    {
-      "id": "res_thunder_101",
-      "username": "thunder101",
-      "passwordHash": "6c2a01c86a49aa9184ced94c6bd26128:60daf027b37319e6d0f9fb9f285a6a80942e005d1d89bb31f3df9ed17148927bf46fc80e57122398b2e6d7a1637f5280b58de6aa27a918a1def4034e7e6bdf22",
-      "name": "Thunder",
-      "unit": "101",
-      "phone": "3000000101",
-      "email": "thunder101@oporto.local",
-      "active": true,
-      "mustChangePassword": false
-    },
-    {
-      "id": "res_1",
-      "username": "juan101",
-      "passwordHash": "a1cd76ca871960ecded5b3caff315e90:7c4c3c7aad7e1bc391275c2bd296e4a62fd014d6725805befe6cf112e781c6ec3b5a89ad653f592945c3a495f738c4b3347e88a5589093ce21213f581afbd8c2",
-      "name": "Juan Pérez",
-      "unit": "101",
-      "phone": "3101234567",
-      "email": "juan.perez@email.com",
-      "active": true
-    },
-    {
-      "id": "res_2",
-      "username": "maria202",
-      "passwordHash": "a1cd76ca871960ecded5b3caff315e90:7c4c3c7aad7e1bc391275c2bd296e4a62fd014d6725805befe6cf112e781c6ec3b5a89ad653f592945c3a495f738c4b3347e88a5589093ce21213f581afbd8c2",
-      "name": "María García",
-      "unit": "202",
-      "phone": "3209876543",
-      "email": "maria.garcia@email.com",
-      "active": true
-    },
-    {
-      "id": "res_3",
-      "username": "pedro303",
-      "passwordHash": "a1cd76ca871960ecded5b3caff315e90:7c4c3c7aad7e1bc391275c2bd296e4a62fd014d6725805befe6cf112e781c6ec3b5a89ad653f592945c3a495f738c4b3347e88a5589093ce21213f581afbd8c2",
-      "name": "Pedro López",
-      "unit": "303",
-      "phone": "3155554433",
-      "email": "pedro.lopez@email.com",
-      "active": true
-    }
-  ],
+  "residents": [],
   "visits": [],
   "reservations": [],
   "maintenance": [],
@@ -100,8 +58,916 @@
   "payments": [],
   "correspondence": [],
   "auditLog": [],
+  "notifications": [],
   "guardShifts": [],
-  "guardShiftPeriods": [],
-  "guardShiftAnchor": null,
-  "notifications": []
+  "guardShiftPeriods": [
+    {
+      "id": "gperiod_1785808828576_4bl3c9",
+      "startDate": "2026-08-03",
+      "endDate": "2026-08-31",
+      "createdAt": "2026-08-04T02:00:28.576Z",
+      "shifts": [
+        {
+          "id": "shift_1785808828576_o0ff3h",
+          "date": "2026-08-03",
+          "type": "day",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "1 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_yiqo1g",
+          "date": "2026-08-03",
+          "type": "night",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "1 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-04",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_0iiz5d",
+          "date": "2026-08-03",
+          "type": "rest",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "1 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_0m9a54",
+          "date": "2026-08-04",
+          "type": "day",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "2 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_5hejbi",
+          "date": "2026-08-04",
+          "type": "night",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "2 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-05",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_j4opy0",
+          "date": "2026-08-04",
+          "type": "rest",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "2 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_6nkl93",
+          "date": "2026-08-05",
+          "type": "day",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "1 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_j7jh7y",
+          "date": "2026-08-05",
+          "type": "night",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "1 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-06",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_a6sg5u",
+          "date": "2026-08-05",
+          "type": "rest",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "1 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_iiqexy",
+          "date": "2026-08-06",
+          "type": "day",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "2 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_e1mkgw",
+          "date": "2026-08-06",
+          "type": "night",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "2 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-07",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_01kjx6",
+          "date": "2026-08-06",
+          "type": "rest",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "2 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_9gw7yr",
+          "date": "2026-08-07",
+          "type": "day",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "1 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_ooz2y6",
+          "date": "2026-08-07",
+          "type": "night",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "1 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-08",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_yhgzeu",
+          "date": "2026-08-07",
+          "type": "rest",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "1 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_yfq70b",
+          "date": "2026-08-08",
+          "type": "day",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "2 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_hdhh6q",
+          "date": "2026-08-08",
+          "type": "night",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "2 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-09",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_as89iw",
+          "date": "2026-08-08",
+          "type": "rest",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "2 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_zxbcpi",
+          "date": "2026-08-09",
+          "type": "day",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "1 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_dc644x",
+          "date": "2026-08-09",
+          "type": "night",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "1 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-10",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_0m8rkw",
+          "date": "2026-08-09",
+          "type": "rest",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "1 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_9g8enh",
+          "date": "2026-08-10",
+          "type": "day",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "2 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_f48qvc",
+          "date": "2026-08-10",
+          "type": "night",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "2 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-11",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_m9wz35",
+          "date": "2026-08-10",
+          "type": "rest",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "2 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_pwyg6b",
+          "date": "2026-08-11",
+          "type": "day",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "1 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_86vclf",
+          "date": "2026-08-11",
+          "type": "night",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "1 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-12",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_oxfnyw",
+          "date": "2026-08-11",
+          "type": "rest",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "1 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_ou3fvs",
+          "date": "2026-08-12",
+          "type": "day",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "2 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_9pp3ws",
+          "date": "2026-08-12",
+          "type": "night",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "2 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-13",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_kguqh7",
+          "date": "2026-08-12",
+          "type": "rest",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "2 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_4cuftn",
+          "date": "2026-08-13",
+          "type": "day",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "1 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_xzxgbn",
+          "date": "2026-08-13",
+          "type": "night",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "1 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-14",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_ytisun",
+          "date": "2026-08-13",
+          "type": "rest",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "1 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_bjgf8j",
+          "date": "2026-08-14",
+          "type": "day",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "2 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_wxz02y",
+          "date": "2026-08-14",
+          "type": "night",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "2 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-15",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_12900u",
+          "date": "2026-08-14",
+          "type": "rest",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "2 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_ef7gam",
+          "date": "2026-08-15",
+          "type": "day",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "1 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_1ev5nz",
+          "date": "2026-08-15",
+          "type": "night",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "1 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-16",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_ztolod",
+          "date": "2026-08-15",
+          "type": "rest",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "1 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_6kl7s8",
+          "date": "2026-08-16",
+          "type": "day",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "2 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_lymaid",
+          "date": "2026-08-16",
+          "type": "night",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "2 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-17",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_hlg22a",
+          "date": "2026-08-16",
+          "type": "rest",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "2 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_i82f2f",
+          "date": "2026-08-17",
+          "type": "day",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "1 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_7xkedo",
+          "date": "2026-08-17",
+          "type": "night",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "1 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-18",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_47vevl",
+          "date": "2026-08-17",
+          "type": "rest",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "1 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_lzfkki",
+          "date": "2026-08-18",
+          "type": "day",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "2 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_0yoxzx",
+          "date": "2026-08-18",
+          "type": "night",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "2 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-19",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_ug34vc",
+          "date": "2026-08-18",
+          "type": "rest",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "2 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_q0450h",
+          "date": "2026-08-19",
+          "type": "day",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "1 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_k27yg9",
+          "date": "2026-08-19",
+          "type": "night",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "1 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-20",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_m496jv",
+          "date": "2026-08-19",
+          "type": "rest",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "1 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_m5ay5l",
+          "date": "2026-08-20",
+          "type": "day",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "2 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_bw5ymo",
+          "date": "2026-08-20",
+          "type": "night",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "2 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-21",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_abs5yj",
+          "date": "2026-08-20",
+          "type": "rest",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "2 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_xnuemm",
+          "date": "2026-08-21",
+          "type": "day",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "1 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_18azxn",
+          "date": "2026-08-21",
+          "type": "night",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "1 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-22",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_serxom",
+          "date": "2026-08-21",
+          "type": "rest",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "1 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_2rzadv",
+          "date": "2026-08-22",
+          "type": "day",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "2 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_25on75",
+          "date": "2026-08-22",
+          "type": "night",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "2 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-23",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_ps22g1",
+          "date": "2026-08-22",
+          "type": "rest",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "2 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_wprt8c",
+          "date": "2026-08-23",
+          "type": "day",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "1 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_uwd9zu",
+          "date": "2026-08-23",
+          "type": "night",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "1 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-24",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_sfe0y7",
+          "date": "2026-08-23",
+          "type": "rest",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "1 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_aqbitg",
+          "date": "2026-08-24",
+          "type": "day",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "2 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_6jtios",
+          "date": "2026-08-24",
+          "type": "night",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "2 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-25",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_f1ikgl",
+          "date": "2026-08-24",
+          "type": "rest",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "2 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_awyw0x",
+          "date": "2026-08-25",
+          "type": "day",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "1 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_oa8v2g",
+          "date": "2026-08-25",
+          "type": "night",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "1 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-26",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_cvlcud",
+          "date": "2026-08-25",
+          "type": "rest",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "1 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_e7mra9",
+          "date": "2026-08-26",
+          "type": "day",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "2 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_nkzy15",
+          "date": "2026-08-26",
+          "type": "night",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "2 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-27",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_49gzas",
+          "date": "2026-08-26",
+          "type": "rest",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "2 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_o8ae25",
+          "date": "2026-08-27",
+          "type": "day",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "1 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_gglnlr",
+          "date": "2026-08-27",
+          "type": "night",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "1 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-28",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_2rdv8u",
+          "date": "2026-08-27",
+          "type": "rest",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "1 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_gahbjh",
+          "date": "2026-08-28",
+          "type": "day",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "2 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_e59esz",
+          "date": "2026-08-28",
+          "type": "night",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "2 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-29",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_4szj2r",
+          "date": "2026-08-28",
+          "type": "rest",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "2 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_2uznoc",
+          "date": "2026-08-29",
+          "type": "day",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "1 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_ryt0vx",
+          "date": "2026-08-29",
+          "type": "night",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "1 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-30",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_erqvxr",
+          "date": "2026-08-29",
+          "type": "rest",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "1 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_jb7rzx",
+          "date": "2026-08-30",
+          "type": "day",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "2 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_tewgow",
+          "date": "2026-08-30",
+          "type": "night",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "2 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-08-31",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_01gc9a",
+          "date": "2026-08-30",
+          "type": "rest",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "2 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        },
+        {
+          "id": "shift_1785808828576_bz5zmd",
+          "date": "2026-08-31",
+          "type": "day",
+          "guardName": "Jorge Bernal",
+          "shiftLabel": "1 diurno",
+          "startTime": "07:00",
+          "endTime": "18:00",
+          "hours": 11
+        },
+        {
+          "id": "shift_1785808828576_27q6vw",
+          "date": "2026-08-31",
+          "type": "night",
+          "guardName": "Yeison Obando",
+          "shiftLabel": "1 nocturno",
+          "startTime": "18:00",
+          "endTime": "07:00",
+          "endDate": "2026-09-01",
+          "hours": 13
+        },
+        {
+          "id": "shift_1785808828576_q2lakb",
+          "date": "2026-08-31",
+          "type": "rest",
+          "guardName": "Fabián Melo",
+          "shiftLabel": "1 descanso",
+          "startTime": "",
+          "endTime": "",
+          "hours": 0
+        }
+      ]
+    }
+  ],
+  "guardShiftAnchor": "2026-07-30"
 }

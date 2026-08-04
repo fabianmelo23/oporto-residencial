@@ -766,8 +766,9 @@ th { background: var(--bg); font-weight: 600; }
   margin: .5rem 0;
   padding: .5rem .75rem;
   background: var(--success-soft);
-  border: 1px solid #bbf7d0;
+  border: 1px solid var(--border);
   border-radius: 8px;
+  color: var(--text);
 }
 
 .signature-field {
@@ -898,8 +899,9 @@ input.field-locked:disabled {
   margin-bottom: 1rem;
   padding: .85rem 1rem;
   border-radius: 12px;
-  border: 1px solid #bfdbfe;
-  background: linear-gradient(180deg, #eff6ff 0%, #f8fbff 100%);
+  border: 1px solid var(--border);
+  background: var(--accent-soft);
+  color: var(--text);
 }
 
 .resv-day-loading {
@@ -1027,10 +1029,15 @@ input.field-locked:disabled {
 }
 
 .resv-hero .btn-primary {
-  background: var(--card);
-  color: #1e3a5f;
+  background: #ffffff;
+  color: #0f172a;
   border: none;
   white-space: nowrap;
+}
+
+.resv-hero .btn-primary:hover {
+  background: #e2e8f0;
+  color: #0f172a;
 }
 
 .visit-hero {
@@ -1089,8 +1096,8 @@ input.field-locked:disabled {
 
 .choice-pill:has(input:checked) {
   border-color: #0f766e;
-  background: #ccfbf1;
-  color: #115e59;
+  background: var(--success-soft);
+  color: var(--text);
   font-weight: 600;
 }
 
@@ -1185,8 +1192,9 @@ input.field-locked:disabled {
   margin-left: .35rem;
   padding: .1rem .45rem;
   border-radius: 999px;
-  background: #ecfdf5;
+  background: var(--success-soft);
   color: #047857;
+  border: 1px solid #86efac;
   font-size: .72rem;
   font-weight: 700;
 }
@@ -1195,8 +1203,9 @@ input.field-locked:disabled {
   margin-top: .45rem;
   padding: .55rem .7rem;
   border-radius: 8px;
-  background: #f0fdfa;
-  border: 1px solid #99f6e4;
+  background: var(--success-soft);
+  border: 1px solid var(--border);
+  color: var(--text);
   font-size: .82rem;
 }
 
@@ -1412,7 +1421,8 @@ input.field-locked:disabled {
   align-items: stretch;
   border: 1px solid var(--border);
   border-radius: 12px;
-  background: #fafbfc;
+  background: var(--surface-2);
+  color: var(--text);
   overflow: hidden;
 }
 
@@ -2289,4 +2299,98 @@ html[data-theme="dark"] .theme-icon-light {
     max-height: 92vh;
     border-radius: 16px 16px 0 0;
   }
+}
+
+/* Dark mode contrast fixes for hardcoded light surfaces */
+html[data-theme="dark"] .resv-hero .btn-primary,
+html[data-theme="dark"] .resv-hero .btn-primary:hover {
+  background: #e5eefb;
+  color: #0f172a;
+}
+
+html[data-theme="dark"] .resv-item,
+html[data-theme="dark"] .visit-item {
+  background: #152033;
+  color: var(--text);
+}
+
+html[data-theme="dark"] .resv-notes,
+html[data-theme="dark"] .resv-area,
+html[data-theme="dark"] .resv-item-main {
+  color: var(--text);
+}
+
+html[data-theme="dark"] .resv-meta {
+  color: var(--muted);
+}
+
+html[data-theme="dark"] .pet-details {
+  background: #052e1c;
+  border-color: #166534;
+  color: #d1fae5;
+}
+
+html[data-theme="dark"] .pet-badge {
+  background: #052e1c;
+  border-color: #166534;
+  color: #86efac;
+}
+
+html[data-theme="dark"] .choice-pill:has(input:checked) {
+  background: #052e1c;
+  border-color: #22c55e;
+  color: #bbf7d0;
+}
+
+html[data-theme="dark"] .resv-area-notice.is-deposit {
+  color: #fdba74;
+  border-color: #92400e;
+}
+
+html[data-theme="dark"] .resv-area-notice.is-auto {
+  color: #86efac;
+  border-color: #166534;
+}
+
+html[data-theme="dark"] .resv-deposit-note {
+  color: #fbbf24;
+}
+
+html[data-theme="dark"] .ann-pill {
+  color: #fdba74;
+  border-color: #92400e;
+}
+
+html[data-theme="dark"] .cal-day.has-booking {
+  background: linear-gradient(180deg, #172554 0%, #1e3a5f 100%);
+  border-color: #3b82f6;
+  color: var(--text);
+}
+
+html[data-theme="dark"] .cal-day.is-today {
+  border-color: #93c5fd;
+  box-shadow: inset 0 0 0 1px #93c5fd;
+}
+
+html[data-theme="dark"] .cal-count {
+  color: #93c5fd;
+}
+
+html[data-theme="dark"] .cal-legend-dot.today {
+  box-shadow: inset 0 0 0 2px #93c5fd;
+}
+
+html[data-theme="dark"] .resv-day-note,
+html[data-theme="dark"] .login-success {
+  color: #86efac;
+}
+
+html[data-theme="dark"] .badge-inactive {
+  background: #1f2937;
+  color: #cbd5e1;
+}
+
+html[data-theme="dark"] .empty-state,
+html[data-theme="dark"] .resv-empty {
+  color: var(--muted);
 }

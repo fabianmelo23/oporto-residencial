@@ -3,11 +3,11 @@ const { randomBytes, scryptSync, timingSafeEqual } = require('crypto');
 
 const sessions = new Map();
 
-/** Inactividad máxima antes de caducar (por defecto 60 min). */
+/** Inactividad máxima antes de caducar (por defecto 5 min). */
 function getSessionIdleMs() {
   const minutes = Number(process.env.SESSION_IDLE_MINUTES);
   if (Number.isFinite(minutes) && minutes > 0) return minutes * 60 * 1000;
-  return 60 * 60 * 1000;
+  return 5 * 60 * 1000;
 }
 
 /** Duración máxima absoluta de la sesión (por defecto 12 h). */

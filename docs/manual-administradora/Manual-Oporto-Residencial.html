@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manual de uso — Oporto Residencial</title>
+  <style>
+    :root { --ink:#1a2744; --muted:#5b6b86; --line:#d7e0ef; --bg:#f4f7fc; --card:#fff; --accent:#2f6fed; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif; background: linear-gradient(180deg,#e8eef8,#f7f9fc 220px,#f7f9fc); color: var(--ink); line-height: 1.55; }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 28px 18px 80px; }
+    article { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 28px 28px 40px; box-shadow: 0 12px 36px rgba(26,39,68,.06); }
+    h1,h2,h3,h4 { letter-spacing: -.02em; line-height: 1.25; }
+    h1 { font-size: 2rem; margin-top: 0; }
+    h2 { border-top: 1px solid var(--line); padding-top: 1.5rem; margin-top: 2.2rem; color: #1e335c; }
+    h3 { color: #27406f; margin-top: 1.6rem; }
+    p, li { color: #243247; }
+    img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 12px; margin: 14px 0 8px; box-shadow: 0 8px 24px rgba(26,39,68,.08); background:#fff; }
+    table { width: 100%; border-collapse: collapse; margin: 14px 0 22px; font-size: .95rem; }
+    th, td { border: 1px solid var(--line); padding: 10px 12px; text-align: left; vertical-align: top; }
+    th { background: #eef4ff; }
+    blockquote { border-left: 4px solid var(--accent); margin: 16px 0; padding: 10px 16px; background: #f3f7ff; color: #334; border-radius: 0 10px 10px 0; }
+    code { background: #eef2f8; padding: 1px 6px; border-radius: 6px; font-family: ui-monospace, Consolas, monospace; font-size: .92em; }
+    a { color: var(--accent); }
+    hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
+    .note { margin-top: 28px; color: var(--muted); font-size: .92rem; }
+    @media print {
+      body { background: #fff; }
+      article { box-shadow: none; border: none; padding: 0; }
+      img { break-inside: avoid; box-shadow: none; }
+      h2 { break-before: page; }
+      h2:first-of-type { break-before: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <article>
+<h1>Manual de uso — Oporto Residencial</h1>
+<p><strong>Destinatario:</strong> Administración del conjunto<br />
+<strong>Propósito:</strong> Explicar, de forma clara y con capturas reales del sistema, qué se puede hacer en cada módulo según el perfil de usuario.<br />
+<strong>Aplicación en línea:</strong> <a href="https://oporto-residencial-production.up.railway.app">https://oporto-residencial-production.up.railway.app</a></p>
+<hr />
+<h2>1. ¿Qué es Oporto Residencial?</h2>
+<p>Es la plataforma digital del conjunto para gestionar en un solo lugar:</p>
+<ul>
+<li>Residentes y sus accesos</li>
+<li>Visitas (con vehículo o mascota)</li>
+<li>Reservas de zonas comunes</li>
+<li>Mantenimiento y pagos</li>
+<li>Anuncios / comunicados</li>
+<li>Vigilantes y turnos</li>
+<li>Correspondencia / paquetes</li>
+<li>Historial de auditoría y notificaciones</li>
+</ul>
+<p>La aplicación se usa desde el navegador (computador o celular). Cada persona ve <strong>solo los menús que corresponden a su perfil</strong>.</p>
+<hr />
+<h2>2. Cómo ingresar</h2>
+<p>Al abrir la plataforma aparece la pantalla de inicio de sesión.</p>
+<p><img alt="Pantalla de inicio de sesión" src="imagenes/00-login.png" /></p>
+<ol>
+<li>Escriba su <strong>usuario</strong> y <strong>contraseña</strong>.</li>
+<li>Pulse <strong>Ingresar</strong>.</li>
+<li>La primera vez (o cuando se reinicia la contraseña de un residente) puede aparecer el aviso de <strong>tratamiento de datos personales</strong>; debe leerlo y aceptar para continuar.</li>
+<li>En la esquina superior puede cambiar entre <strong>tema claro / oscuro</strong>.</li>
+</ol>
+<h3>Usuarios de referencia (demostración)</h3>
+<table>
+<thead>
+<tr>
+<th>Perfil</th>
+<th>Usuario</th>
+<th>Contraseña</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Administración</td>
+<td><code>administracionoporto</code></td>
+<td><code>oporto123</code></td>
+</tr>
+<tr>
+<td>Vigilante</td>
+<td><code>f.melo</code></td>
+<td><code>melo123</code></td>
+</tr>
+<tr>
+<td>Vigilante</td>
+<td><code>y.obando</code></td>
+<td><code>obando123</code></td>
+</tr>
+<tr>
+<td>Vigilante</td>
+<td><code>j.bernal</code></td>
+<td><code>bernal123</code></td>
+</tr>
+<tr>
+<td>Residente (apto 201)</td>
+<td><code>Pepito201</code></td>
+<td><code>Pepito201</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Nota:</strong> Los residentes nuevos se crean desde Administración. Al crearse reciben una contraseña temporal y el sistema les pide cambiarla en el primer ingreso.</p>
+</blockquote>
+<hr />
+<h2>3. Elementos comunes en toda la aplicación</h2>
+<p>Luego de ingresar verá siempre:</p>
+<ul>
+<li><strong>Nombre del conjunto</strong> y el perfil con el que está conectado</li>
+<li><strong>Menú de módulos</strong> (cambia según el perfil)</li>
+<li><strong>Campana de notificaciones</strong> (avisos de visitas, reservas, correspondencia, anuncios, etc.)</li>
+<li><strong>Cambiar tema</strong> (claro / oscuro)</li>
+<li><strong>Cerrar sesión</strong></li>
+<li>Enlace de <strong>Tratamiento de datos personales</strong> en el pie de página</li>
+</ul>
+<p><img alt="Panel de notificaciones (Administración)" src="imagenes/11-admin-notificaciones.png" /></p>
+<p>Desde notificaciones puede:</p>
+<ul>
+<li>Ver avisos recientes</li>
+<li>Abrir el módulo relacionado al tocar un aviso</li>
+<li>Usar <strong>Marcar todas</strong> para dejarlas como leídas</li>
+</ul>
+<hr />
+<h1>4. Perfil Administración</h1>
+<p>Este es el perfil principal para la administradora del conjunto.<br />
+Menú disponible:</p>
+<p><strong>Residentes · Visitas · Reservas · Mantenimiento · Pagos · Anuncios · Vigilantes · Auditoría · Turnos · Correspondencia</strong></p>
+<p><img alt="Menú de Administración — módulo Residentes" src="imagenes/01-admin-inicio-residentes.png" /></p>
+<hr />
+<h2>4.1 Residentes</h2>
+<p><strong>Para qué sirve:</strong> dar de alta a las personas del conjunto y controlar su acceso a la plataforma.</p>
+<h3>Qué puede hacer</h3>
+<table>
+<thead>
+<tr>
+<th>Acción</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ver listado</td>
+<td>Nombre, unidad, usuario, teléfono y estado</td>
+</tr>
+<tr>
+<td>Crear residente</td>
+<td>Abre el formulario “+ Crear residente”</td>
+</tr>
+<tr>
+<td>Reiniciar contraseña</td>
+<td>Asigna una contraseña temporal nueva</td>
+</tr>
+<tr>
+<td>Eliminar</td>
+<td>Quita el residente del sistema</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Formulario para crear residente" src="imagenes/01b-admin-residentes-crear.png" /></p>
+<h3>Datos al crear un residente</h3>
+<ul>
+<li>Nombre  </li>
+<li>Unidad (apartamento)  </li>
+<li>Usuario (con el que iniciará sesión)  </li>
+<li>Teléfono  </li>
+<li>Email  </li>
+<li>Contraseña temporal  </li>
+</ul>
+<h3>Reglas importantes</h3>
+<ul>
+<li>Al crear o reiniciar contraseña, el residente <strong>debe cambiarla</strong> en el primer ingreso.</li>
+<li>La contraseña nueva del residente debe tener: mínimo 6 caracteres, al menos 1 mayúscula y 1 número.</li>
+<li>El nombre de usuario no se puede repetir.</li>
+</ul>
+<hr />
+<h2>4.2 Visitas</h2>
+<p><strong>Para qué sirve:</strong> consultar todas las visitas del conjunto y, si es necesario, registrar una visita manualmente.</p>
+<p><img alt="Módulo Visitas — Administración" src="imagenes/02-admin-visitas.png" /></p>
+<h3>Qué puede hacer</h3>
+<ul>
+<li>Ver visitas agrupadas por unidad</li>
+<li>Registrar una visita (unidad, visitante, documento, propósito)</li>
+<li>Consultar si hay mascota, foto o firma (cuando aplique)</li>
+<li>Eliminar visitas solo si el usuario es <strong>Super Admin</strong> (la administración normal no tiene esta opción)</li>
+</ul>
+<h3>Estados de una visita</h3>
+<ol>
+<li><strong>pendiente</strong> — programada, aún no ingresa  </li>
+<li><strong>ingreso</strong> — el vigilante ya registró la entrada  </li>
+<li><strong>despachado</strong> — el vigilante registró la salida  </li>
+</ol>
+<blockquote>
+<p>En la operación diaria, quien marca <strong>Ingreso</strong> y <strong>Despachado</strong> es el <strong>vigilante</strong>. Administración supervisa y puede registrar visitas cuando haga falta.</p>
+</blockquote>
+<hr />
+<h2>4.3 Reservas</h2>
+<p><strong>Para qué sirve:</strong> revisar las reservas de zonas comunes y <strong>aprobar o rechazar</strong> las que lo necesiten.</p>
+<p><img alt="Módulo Reservas — Administración" src="imagenes/03-admin-reservas.png" /></p>
+<h3>Qué puede hacer</h3>
+<ul>
+<li>Ver reservas por unidad</li>
+<li><strong>Aprobar</strong> reservas pendientes</li>
+<li><strong>Rechazar</strong> reservas pendientes</li>
+<li>Eliminar una reserva</li>
+</ul>
+<h3>Reglas de áreas</h3>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Áreas</th>
+<th>Comportamiento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aprobación automática</td>
+<td>Turco 1, Turco 2, Televisor, Mesa de Ping Pong</td>
+<td>Quedan aprobadas al crearlas</td>
+</tr>
+<tr>
+<td>Requieren aprobación / depósito</td>
+<td>Salón social, Kiosco 1, Kiosco 2, Kiosco 3</td>
+<td>Quedan pendientes hasta que administración decida</td>
+</tr>
+</tbody>
+</table>
+<h3>Otras reglas</h3>
+<ul>
+<li>No se permiten horarios cruzados en la misma área y fecha.</li>
+<li>La hora de fin debe ser posterior a la de inicio.</li>
+<li>Al aprobar o rechazar, el sistema notifica al residente y a vigilancia.</li>
+</ul>
+<hr />
+<h2>4.4 Mantenimiento</h2>
+<p><strong>Para qué sirve:</strong> registrar y hacer seguimiento a novedades o fallas del conjunto.</p>
+<p><img alt="Módulo Mantenimiento — Administración" src="imagenes/04-admin-mantenimiento.png" /></p>
+<h3>Qué puede hacer</h3>
+<ul>
+<li>Crear reporte (unidad, título, descripción, prioridad)</li>
+<li>Ver el listado de reportes</li>
+<li>Cambiar el estado: <strong>abierto → en proceso → cerrado</strong></li>
+</ul>
+<p>Prioridades disponibles: <strong>baja</strong>, <strong>media</strong>, <strong>alta</strong>.</p>
+<hr />
+<h2>4.5 Pagos</h2>
+<p><strong>Para qué sirve:</strong> llevar el control de cobros / cuotas por unidad.</p>
+<p><img alt="Módulo Pagos — Administración" src="imagenes/05-admin-pagos.png" /></p>
+<h3>Qué puede hacer</h3>
+<ul>
+<li>Registrar un pago o cobro (unidad, concepto, monto, vencimiento)</li>
+<li>Marcar un registro como <strong>pagado</strong></li>
+<li>Eliminar un registro</li>
+</ul>
+<p>Estado inicial: <strong>pendiente</strong>. Al marcar pagado, el sistema guarda la fecha de pago.</p>
+<hr />
+<h2>4.6 Anuncios</h2>
+<p><strong>Para qué sirve:</strong> publicar comunicados para residentes y vigilantes.</p>
+<p><img alt="Módulo Anuncios — Administración" src="imagenes/06-admin-anuncios.png" /></p>
+<h3>Qué puede hacer</h3>
+<ul>
+<li>Publicar anuncio (título y contenido)</li>
+<li>Ver anuncios publicados</li>
+<li>Eliminar un anuncio</li>
+</ul>
+<p>Al publicar, el sistema envía notificación a residentes y vigilantes.</p>
+<hr />
+<h2>4.7 Vigilantes</h2>
+<p><strong>Para qué sirve:</strong> administrar el personal de seguridad que usa la plataforma.</p>
+<p><img alt="Módulo Vigilantes — Administración" src="imagenes/07-admin-vigilantes.png" /></p>
+<h3>Qué puede hacer</h3>
+<ul>
+<li>Crear vigilante (nombre, usuario, teléfono, cargo, contraseña)</li>
+<li>Editar datos</li>
+<li>Habilitar / deshabilitar</li>
+<li>Cambiar contraseña</li>
+<li>Eliminar (solo <strong>Super Admin</strong>)</li>
+</ul>
+<h3>Regla de turno (opcional)</h3>
+<p>Si en el servidor se activa el control estricto de turnos, un vigilante solo podrá iniciar sesión cuando la malla indique que está de turno. En la configuración actual de demostración, los vigilantes activos pueden ingresar normalmente.</p>
+<hr />
+<h2>4.8 Auditoría</h2>
+<p><strong>Para qué sirve:</strong> revisar el historial de acciones realizadas en el sistema (trazabilidad).</p>
+<p><img alt="Módulo Auditoría — Administración" src="imagenes/08-admin-auditoria.png" /></p>
+<h3>Qué puede hacer</h3>
+<ul>
+<li>Ver registros agrupados por persona</li>
+<li>Buscar por texto</li>
+<li>Filtrar por categoría (autenticación, residentes, visitas, reservas, mantenimiento, anuncios, pagos, vigilantes, correspondencia, turnos)</li>
+</ul>
+<h3>Privacidad entre administradores</h3>
+<ul>
+<li>La <strong>administración normal</strong> no ve las acciones del <strong>Super Admin</strong>.</li>
+<li>El Super Admin sí puede ver todo el historial.</li>
+</ul>
+<hr />
+<h2>4.9 Turnos</h2>
+<p><strong>Para qué sirve:</strong> generar y consultar la malla de turnos de vigilancia (día / noche / descanso).</p>
+<p><img alt="Módulo Turnos — Administración" src="imagenes/09-admin-turnos.png" /></p>
+<h3>Qué puede hacer</h3>
+<ul>
+<li>Generar una malla (fecha de inicio y cantidad de días)</li>
+<li>Ver turnos por periodo</li>
+<li>Descargar la malla en <strong>CSV</strong></li>
+<li>Eliminar una malla</li>
+</ul>
+<h3>Reglas importantes</h3>
+<ul>
+<li>La rotación continúa de forma ordenada desde la última malla.</li>
+<li>No se pueden generar periodos que se crucen entre sí.</li>
+<li>Esta malla también se usa para saber <strong>quién está de turno</strong> al entregar correspondencia.</li>
+<li>Cerca del fin de mes, el sistema puede generar automáticamente la malla del mes siguiente.</li>
+</ul>
+<hr />
+<h2>4.10 Correspondencia (vista administración)</h2>
+<p><strong>Para qué sirve:</strong> supervisar paquetes / correspondencia registrada para las unidades.</p>
+<p><img alt="Módulo Correspondencia — Administración" src="imagenes/10-admin-correspondencia.png" /></p>
+<h3>Qué puede hacer</h3>
+<ul>
+<li>Ver correspondencia agrupada por unidad</li>
+<li>Ver foto del paquete (si se adjuntó)</li>
+<li>Ver firma de quien recibió (cuando ya fue entregada)</li>
+<li><strong>Limpiar todo</strong> el historial solo si es <strong>Super Admin</strong></li>
+</ul>
+<blockquote>
+<p>Administración <strong>no registra ni entrega</strong> correspondencia desde este módulo. Eso lo hace el <strong>vigilante</strong> en portería.</p>
+</blockquote>
+<p>Estados: <strong>recibido</strong> → <strong>entregado</strong>.</p>
+<hr />
+<h1>5. Perfil Residente</h1>
+<p>El residente ve únicamente lo relacionado con su unidad.</p>
+<p>Menú: <strong>Mis Visitas · Mis Reservas · Correspondencia Recibida · Anuncios</strong></p>
+<hr />
+<h2>5.1 Mis Visitas</h2>
+<p><strong>Para qué sirve:</strong> programar visitantes y seguir si ya ingresaron o salieron.</p>
+<p><img alt="Mis Visitas — Residente" src="imagenes/20-residente-mis-visitas.png" /></p>
+<h3>Qué puede hacer</h3>
+<ul>
+<li>Ver visitas <strong>pendientes de ingreso</strong></li>
+<li>Ver <strong>historial</strong></li>
+<li>Crear <strong>Nueva visita</strong> desde el calendario</li>
+<li>Consultar foto de mascota y firma (si aplica)</li>
+</ul>
+<p><img alt="Calendario para registrar una nueva visita" src="imagenes/20b-residente-calendario-visitas.png" /></p>
+<h3>Datos al registrar una visita</h3>
+<ul>
+<li>Fecha  </li>
+<li>Nombre del visitante  </li>
+<li>Número de documento  </li>
+<li>Modelo y placas del vehículo  </li>
+<li>¿Trae mascota?</li>
+</ul>
+<p>Si trae mascota, también pide: teléfono, hora estimada, datos de la mascota, vacunación, compromisos, foto (opcional) y <strong>firma obligatoria</strong> del visitante.</p>
+<h3>Reglas</h3>
+<ul>
+<li>No se pueden elegir fechas pasadas.</li>
+<li>La visita nace en estado <strong>pendiente</strong>.</li>
+<li>Administración y vigilancia reciben aviso de la nueva visita.</li>
+<li>Cuando vigilancia marca ingreso o despacho, el residente recibe notificación.</li>
+</ul>
+<hr />
+<h2>5.2 Mis Reservas</h2>
+<p><strong>Para qué sirve:</strong> reservar zonas comunes y ver si fueron aprobadas.</p>
+<p><img alt="Mis Reservas — Residente" src="imagenes/21-residente-mis-reservas.png" /></p>
+<p><img alt="Calendario de reservas" src="imagenes/21b-residente-calendario-reservas.png" /></p>
+<h3>Qué puede hacer</h3>
+<ul>
+<li>Ver reservas pendientes e historial</li>
+<li>Crear <strong>Nueva reserva</strong> (área, fecha, hora inicio, hora fin, nota opcional)</li>
+</ul>
+<h3>Reglas</h3>
+<ul>
+<li>No se reservan fechas pasadas.</li>
+<li>No se cruza horario en la misma área.</li>
+<li>Algunas áreas se aprueban solas (turcos, televisor, ping pong).</li>
+<li>Salón social y kioscos quedan <strong>pendientes</strong> hasta que administración apruebe o rechace.</li>
+<li>El residente <strong>no</strong> aprueba ni rechaza; solo solicita.</li>
+</ul>
+<hr />
+<h2>5.3 Correspondencia Recibida</h2>
+<p><strong>Para qué sirve:</strong> saber si llegó un paquete o correspondencia a su unidad.</p>
+<p><img alt="Correspondencia Recibida — Residente" src="imagenes/22-residente-correspondencia.png" /></p>
+<h3>Qué puede hacer</h3>
+<ul>
+<li>Ver pendientes de entrega y ya entregadas</li>
+<li>Ver foto del paquete</li>
+<li>Ver firma de quien lo recibió (cuando ya fue entregado)</li>
+</ul>
+<p>Solo ve la correspondencia de <strong>su unidad / su usuario</strong>.</p>
+<hr />
+<h2>5.4 Anuncios (residente)</h2>
+<p><strong>Para qué sirve:</strong> leer los comunicados publicados por administración.</p>
+<p><img alt="Anuncios — Residente" src="imagenes/23-residente-anuncios.png" /></p>
+<p>El residente solo lee; no puede crear ni borrar anuncios.</p>
+<hr />
+<h2>5.5 Cambio obligatorio de contraseña (residente)</h2>
+<p>Si administración creó o reinició la clave, al ingresar aparece la pantalla <strong>Cambia tu contraseña</strong>.</p>
+<p>Debe indicar:</p>
+<ul>
+<li>Contraseña antigua (temporal)</li>
+<li>Contraseña nueva (mínimo 6 caracteres, 1 mayúscula y 1 número)</li>
+</ul>
+<p>Después de guardarla, la sesión se cierra y debe volver a ingresar con la nueva clave.</p>
+<hr />
+<h1>6. Perfil Vigilante (Seguridad)</h1>
+<p>Pensado para portería / recepción.</p>
+<p>Menú: <strong>Anuncios · Visitas · Reservas · Correspondencia · Historial de correspondencia</strong></p>
+<p>En el encabezado puede verse el turno actual, por ejemplo:<br />
+<code>Fabian Melo — Seguridad — 2 diurno: 07:00 a 18:00</code></p>
+<hr />
+<h2>6.1 Anuncios (vigilante)</h2>
+<p><strong>Para qué sirve:</strong> leer comunicados de administración.</p>
+<p><img alt="Anuncios — Vigilante" src="imagenes/30-vigilante-anuncios.png" /></p>
+<p>Solo lectura. No crea ni elimina anuncios.</p>
+<hr />
+<h2>6.2 Visitas (vigilante)</h2>
+<p><strong>Para qué sirve:</strong> controlar el ingreso y salida de visitantes.</p>
+<p><img alt="Visitas — Vigilante" src="imagenes/31-vigilante-visitas.png" /></p>
+<h3>Qué puede hacer</h3>
+<ul>
+<li>Ver todas las visitas</li>
+<li>Pulsar <strong>Ingreso</strong> cuando el visitante está pendiente</li>
+<li>Pulsar <strong>Despachado</strong> cuando ya salió</li>
+<li>Consultar vehículo y datos de mascota (incluida foto)</li>
+</ul>
+<h3>Qué no puede hacer</h3>
+<ul>
+<li>Crear o eliminar visitas</li>
+<li>Ver la firma del visitante (esa firma la ven administración y el residente)</li>
+</ul>
+<p>Cada cambio de estado queda registrado en la línea de tiempo de la visita y genera notificación al residente.</p>
+<hr />
+<h2>6.3 Reservas (vigilante)</h2>
+<p><strong>Para qué sirve:</strong> consultar qué zonas están reservadas (solo lectura operativa).</p>
+<p><img alt="Reservas — Vigilante" src="imagenes/32-vigilante-reservas.png" /></p>
+<p>No puede crear, aprobar, rechazar ni eliminar reservas. Recibe notificaciones cuando hay novedades.</p>
+<hr />
+<h2>6.4 Correspondencia (registrar)</h2>
+<p><strong>Para qué sirve:</strong> cuando llega un paquete a portería, dejarlo registrado para la unidad.</p>
+<p><img alt="Registrar correspondencia — Vigilante" src="imagenes/33-vigilante-correspondencia-registrar.png" /></p>
+<h3>Pasos</h3>
+<ol>
+<li>Buscar residente (por nombre o unidad; mínimo 2 caracteres)</li>
+<li>Seleccionarlo</li>
+<li>Escribir descripción</li>
+<li>Adjuntar foto (opcional)</li>
+<li>Pulsar <strong>Registrar</strong></li>
+</ol>
+<p>El estado inicial es <strong>recibido</strong>. Se notifica a administración y al residente.</p>
+<hr />
+<h2>6.5 Historial de correspondencia (entregar)</h2>
+<p><strong>Para qué sirve:</strong> entregar el paquete a la persona que lo reclama y dejar evidencia.</p>
+<p><img alt="Historial y entrega de correspondencia — Vigilante" src="imagenes/34-vigilante-historial-correspondencia.png" /></p>
+<h3>Al entregar se pide</h3>
+<ul>
+<li>Nombre de quien recibe  </li>
+<li>Fecha y hora (automática)  </li>
+<li>Vigilante que entrega (según el turno activo en la malla)  </li>
+<li><strong>Firma obligatoria</strong> de quien recibe  </li>
+</ul>
+<h3>Reglas</h3>
+<ul>
+<li>No se puede entregar dos veces la misma correspondencia.</li>
+<li>Debe existir un vigilante en turno según la malla.</li>
+<li>Administración y residente reciben notificación de la entrega.</li>
+<li>El vigilante no vuelve a ver la firma; administración y residente sí.</li>
+</ul>
+<hr />
+<h1>7. Resumen rápido por perfil</h1>
+<table>
+<thead>
+<tr>
+<th>Módulo</th>
+<th>Administración</th>
+<th>Vigilante</th>
+<th>Residente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Residentes</td>
+<td>Crear, contraseña, eliminar</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Visitas</td>
+<td>Ver / registrar</td>
+<td>Marcar ingreso y despacho</td>
+<td>Crear y ver las de su unidad</td>
+</tr>
+<tr>
+<td>Reservas</td>
+<td>Aprobar / rechazar / eliminar</td>
+<td>Solo ver</td>
+<td>Solicitar y ver las suyas</td>
+</tr>
+<tr>
+<td>Mantenimiento</td>
+<td>Crear y cambiar estado</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Pagos</td>
+<td>Crear, marcar pagado, eliminar</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Anuncios</td>
+<td>Publicar / eliminar</td>
+<td>Solo leer</td>
+<td>Solo leer</td>
+</tr>
+<tr>
+<td>Vigilantes</td>
+<td>CRUD / habilitar</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Auditoría</td>
+<td>Consultar</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Turnos</td>
+<td>Generar / exportar / eliminar</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Correspondencia</td>
+<td>Supervisar</td>
+<td>Registrar y entregar</td>
+<td>Ver la de su unidad</td>
+</tr>
+<tr>
+<td>Notificaciones</td>
+<td>Sí</td>
+<td>Sí</td>
+<td>Sí</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1>8. Recomendaciones para la administradora</h1>
+<ol>
+<li><strong>Empiece por Residentes:</strong> cree cada unidad con usuario y contraseña temporal, y comuníqueselos al residente.</li>
+<li><strong>Revise Reservas pendientes</strong> a diario (salón social y kioscos).</li>
+<li><strong>Use Anuncios</strong> para comunicados oficiales; llegan por notificación.</li>
+<li><strong>Mantenga actualizada la malla de Turnos</strong>; afecta la entrega de correspondencia.</li>
+<li><strong>Consulte Auditoría</strong> cuando necesite saber quién hizo un cambio.</li>
+<li><strong>No comparta</strong> las claves de administración. Cada perfil debe usar su propio usuario.</li>
+<li>En celular, use el menú (ícono de tres líneas) para cambiar de módulo.</li>
+</ol>
+<hr />
+<h2>9. Soporte de capturas</h2>
+<p>Todas las imágenes de este manual fueron tomadas directamente de la aplicación en producción:</p>
+<p><code>https://oporto-residencial-production.up.railway.app</code></p>
+<p>Carpeta de imágenes: <code>docs/manual-administradora/imagenes/</code></p>
+<hr />
+<p><em>Documento generado para revisión de Administración — Oporto Residencial © 2026</em></p>
+    </article>
+  </div>
+</body>
+</html>

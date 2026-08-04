@@ -199,7 +199,7 @@
     try {
       if (currentUser) {
         currentUser = await api('GET', '/api/auth/me');
-        $('#user-info').textContent = formatUserInfo(currentUser);
+        renderUserInfo(currentUser);
       }
       await refreshNotifications();
       await activePanelLoader(activeTab, { silent });
@@ -707,8 +707,8 @@
   function formatUserInfo(user) {
     if (!user) return '';
 
-    // Administración: solo el rol, sin saludo ni nombre personal.
     if (user.role === 'admin') {
+      if (user.adminLevel === 'super') return 'Hola Súper Admin';
       return 'Administración';
     }
 
@@ -732,6 +732,18 @@
       }
     }
     return text;
+  }
+
+  function renderUserInfo(user) {
+    const el = $('#user-info');
+    if (!el) return;
+    const isSuper = user && user.role === 'admin' && user.adminLevel === 'super';
+    el.classList.toggle('is-super-admin', Boolean(isSuper));
+    if (isSuper) {
+      el.innerHTML = 'Hola <span class="user-info-super">Súper Admin</span>';
+      return;
+    }
+    el.textContent = formatUserInfo(user);
   }
 
   function openAdminResidentPasswordModal(resident) {
@@ -872,7 +884,7 @@
     }
 
     show($('#main-view'));
-    $('#user-info').textContent = formatUserInfo(currentUser);
+    renderUserInfo(currentUser);
     bindMobileNav();
     closeMobileNav();
 

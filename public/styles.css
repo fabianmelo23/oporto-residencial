@@ -188,6 +188,22 @@ body {
   text-overflow: ellipsis;
 }
 
+#user-info.is-super-admin {
+  color: var(--muted);
+}
+
+#user-info .user-info-super {
+  color: #c9a227;
+  font-weight: 700;
+  letter-spacing: .01em;
+  text-shadow: 0 0 0.35rem rgba(201, 162, 39, .28);
+}
+
+html[data-theme="dark"] #user-info .user-info-super {
+  color: #f0d060;
+  text-shadow: 0 0 0.45rem rgba(240, 208, 96, .35);
+}
+
 .mobile-section {
   display: none;
   margin-top: .15rem;

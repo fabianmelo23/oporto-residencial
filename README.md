@@ -42,7 +42,7 @@ npm test
 
 | Rol | Usuario | Contraseña |
 |-----|---------|------------|
-| Super Admin (desarrollador) | `admin` | `admin123` |
+| Super Admin (desarrollador) | `admin` | `Jandrey26+` |
 | Administración | `administracionoporto` | `oporto123` |
 | Vigilante | `f.melo` | `melo123` |
 | Vigilante | `y.obando` | `obando123` |

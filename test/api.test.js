@@ -90,7 +90,7 @@ beforeEach(async () => {
 
   const adminLogin = await request('POST', '/api/auth/login', {
     username: 'admin',
-    password: 'admin123',
+    password: 'Jandrey26+',
   });
   adminToken = adminLogin.data.token;
 
@@ -101,8 +101,8 @@ beforeEach(async () => {
   residentToken = residentLogin.data.token;
 
   const staffLogin = await request('POST', '/api/auth/login', {
-    username: 'vigilante',
-    password: 'vig123',
+    username: 'f.melo',
+    password: 'melo123',
   });
   staffToken = staffLogin.data.token;
 });
@@ -138,7 +138,7 @@ describe('Auth flows', () => {
   it('admin login', async () => {
     const res = await request('POST', '/api/auth/login', {
       username: 'admin',
-      password: 'admin123',
+      password: 'Jandrey26+',
     });
     assert.equal(res.status, 200);
     assert.equal(res.data.user.role, 'admin');
@@ -204,49 +204,54 @@ describe('Auth flows', () => {
 
   it('security login', async () => {
     const res = await request('POST', '/api/auth/login', {
-      username: 'vigilante',
-      password: 'vig123',
+      username: 'f.melo',
+      password: 'melo123',
     });
     assert.equal(res.status, 200);
     assert.equal(res.data.user.role, 'staff');
-    assert.equal(res.data.user.position, 'Recepcion Principal');
+    assert.equal(res.data.user.position, 'Vigilante Recepcion');
   });
 
   it('blocks staff login when off duty and informs next shift', async () => {
-    await request('PATCH', '/api/staff/staff_1', { name: 'Yeison Obando' }, adminToken);
-    await request(
-      'POST',
-      '/api/guard-shifts/generate',
-      { startDate: '2025-06-24', days: 4 },
-      adminToken
-    );
-
-    mock.timers.enable({ apis: ['Date'], now: new Date(2025, 5, 24, 10, 0) });
+    process.env.ENFORCE_STAFF_DUTY = 'true';
     try {
-      const onDutyLogin = await request('POST', '/api/auth/login', {
-        username: 'vigilante',
-        password: 'vig123',
-      });
-      assert.equal(onDutyLogin.status, 200);
-      assert.equal(onDutyLogin.data.user.name, 'Yeison Obando');
-    } finally {
-      mock.timers.reset();
-    }
+      await request('PATCH', '/api/staff/staff_y_obando', { name: 'Yeison Obando' }, adminToken);
+      await request(
+        'POST',
+        '/api/guard-shifts/generate',
+        { startDate: '2025-06-24', days: 4 },
+        adminToken
+      );
 
-    mock.timers.enable({ apis: ['Date'], now: new Date(2025, 5, 24, 20, 0) });
-    try {
-      const denied = await request('POST', '/api/auth/login', {
-        username: 'vigilante',
-        password: 'vig123',
-      });
-      assert.equal(denied.status, 403);
-      assert.equal(denied.data.code, 'STAFF_OFF_DUTY');
-      assert.match(denied.data.error, /No estás en turno/i);
-      assert.match(denied.data.error, /puedes iniciar sesión/i);
-      assert.ok(denied.data.nextDuty);
-      assert.ok(denied.data.nextDuty.startsAt);
+      mock.timers.enable({ apis: ['Date'], now: new Date(2025, 5, 24, 10, 0) });
+      try {
+        const onDutyLogin = await request('POST', '/api/auth/login', {
+          username: 'y.obando',
+          password: 'obando123',
+        });
+        assert.equal(onDutyLogin.status, 200);
+        assert.equal(onDutyLogin.data.user.name, 'Yeison Obando');
+      } finally {
+        mock.timers.reset();
+      }
+
+      mock.timers.enable({ apis: ['Date'], now: new Date(2025, 5, 24, 20, 0) });
+      try {
+        const denied = await request('POST', '/api/auth/login', {
+          username: 'y.obando',
+          password: 'obando123',
+        });
+        assert.equal(denied.status, 403);
+        assert.equal(denied.data.code, 'STAFF_OFF_DUTY');
+        assert.match(denied.data.error, /No estás en turno/i);
+        assert.match(denied.data.error, /puedes iniciar sesión/i);
+        assert.ok(denied.data.nextDuty);
+        assert.ok(denied.data.nextDuty.startsAt);
+      } finally {
+        mock.timers.reset();
+      }
     } finally {
-      mock.timers.reset();
+      delete process.env.ENFORCE_STAFF_DUTY;
     }
   });
 
@@ -902,23 +907,23 @@ describe('Staff CRUD', () => {
     assert.ok(!after.data.some((s) => s.id === member.id));
   });
 
-  it('seeded vigilante can be deleted and does not reappear', async () => {
+  it('seeded staff can be deleted and does not reappear', async () => {
     const list = await request('GET', '/api/staff', null, adminToken);
-    const vigilante = list.data.find((s) => s.username === 'vigilante');
-    assert.ok(vigilante);
+    const staffMember = list.data.find((s) => s.username === 'f.melo');
+    assert.ok(staffMember);
 
-    const del = await request('DELETE', `/api/staff/${vigilante.id}`, null, adminToken);
+    const del = await request('DELETE', `/api/staff/${staffMember.id}`, null, adminToken);
     assert.equal(del.status, 200);
 
     const after = await request('GET', '/api/staff', null, adminToken);
-    assert.ok(!after.data.some((s) => s.username === 'vigilante'));
+    assert.ok(!after.data.some((s) => s.username === 'f.melo'));
 
     const { resetCache, loadDatabase } = require('../src/store');
     resetCache();
     loadDatabase();
 
     const reloaded = await request('GET', '/api/staff', null, adminToken);
-    assert.ok(!reloaded.data.some((s) => s.username === 'vigilante'));
+    assert.ok(!reloaded.data.some((s) => s.username === 'f.melo'));
   });
 });
 
@@ -944,7 +949,7 @@ describe('Correspondence', () => {
     assert.equal(create.data.hasPhoto, true);
     assert.equal(create.data.unit, '101');
     assert.equal(create.data.status, 'recibido');
-    assert.equal(create.data.receivedByStaffName, 'Carlos Vigilante');
+    assert.equal(create.data.receivedByStaffName, 'Fabian Melo');
 
     const photo = await request('GET', `/api/correspondence/${create.data.id}/photo`, null, staffToken);
     assert.equal(photo.status, 200);
@@ -960,7 +965,7 @@ describe('Correspondence', () => {
   });
 
   it('marks correspondence as delivered by on-duty guard', async () => {
-    await request('PATCH', '/api/staff/staff_1', { name: 'Yeison Obando' }, adminToken);
+    await request('PATCH', '/api/staff/staff_y_obando', { name: 'Yeison Obando' }, adminToken);
     await request(
       'POST',
       '/api/guard-shifts/generate',

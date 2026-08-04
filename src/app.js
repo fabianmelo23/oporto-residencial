@@ -209,7 +209,9 @@ app.post('/api/auth/login', (req, res) => {
     return res.status(401).json({ error: 'Credenciales inválidas' });
   }
 
-  if (user.role === 'staff') {
+  // Demo: by default staff can log in regardless of the shift mesh.
+  // Set ENFORCE_STAFF_DUTY=true to restore on-duty-only login.
+  if (user.role === 'staff' && process.env.ENFORCE_STAFF_DUTY === 'true') {
     const db = getDatabase();
     const access = evaluateStaffLoginAccess(db.guardShiftPeriods, user.name);
     if (!access.allowed) {

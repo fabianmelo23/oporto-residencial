@@ -7,7 +7,7 @@
     {
       "id": "admin_1",
       "username": "admin",
-      "passwordHash": "5baf1c5c49b32b8a1abe6d4d4f10b71f:04ede447e0bb8390312f65bb4277b640e683c4d55809687023cb8d7c8b3ee05517f34f83942d851ee0741aa454445e4783154a9294ef8ef1509fbb1b70547d7f",
+      "passwordHash": "4d3736df52aa87fa3a7781839d2345cd:1cfdb289827d0eff521c43a380a2ec4ebccec6d4d16aa4a363fd3febdd1eba4b35c68ad033279732671fea4b37976a922a3a8b7d8ea6b0864ff7f1c5f49bd27e",
       "name": "Super Admin (Desarrollador)",
       "email": "admin@oporto.local",
       "adminLevel": "super"

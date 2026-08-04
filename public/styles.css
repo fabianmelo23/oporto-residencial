@@ -30,8 +30,8 @@ body {
 
 /* Login */
 .login-card {
-  max-width: 400px;
-  margin: 10vh auto;
+  max-width: 440px;
+  margin: 6vh auto;
   padding: 2rem;
   background: var(--card);
   border-radius: var(--radius);
@@ -40,6 +40,54 @@ body {
 
 .login-card h1 { font-size: 1.75rem; margin-bottom: .25rem; }
 .subtitle { color: var(--muted); margin-bottom: 1.5rem; }
+
+.login-demo {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  font-size: .8125rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.login-demo-about {
+  margin: 0 0 1rem;
+}
+
+.login-demo-title {
+  margin: 0 0 .5rem;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.login-demo-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: .65rem;
+}
+
+.login-demo-list li {
+  display: grid;
+  gap: .15rem;
+}
+
+.login-demo-role {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.login-demo code {
+  font-size: .8125rem;
+  padding: .1rem .3rem;
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text);
+}
 
 .password-field {
   display: flex;

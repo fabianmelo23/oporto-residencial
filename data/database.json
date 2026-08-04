@@ -23,12 +23,30 @@
   ],
   "staff": [
     {
-      "id": "staff_1",
-      "username": "vigilante",
-      "passwordHash": "8ae13230cf979f12daeea71da80c78e6:cd108d9aedb50a3f440d8733682351406774d2135f6e5b312d0cac65db909faf215a42e043b07827a262f1858616ea199c4279e7256a1be8b2faa62db28f63d8",
-      "name": "Carlos Vigilante",
-      "position": "Recepcion Principal",
-      "phone": "3001112233",
+      "id": "staff_f_melo",
+      "username": "f.melo",
+      "passwordHash": "f33dccd71bb0bcf633eb59d27ca24ad1:06fc81fbdedd7bd3c41e7dd551f9b306770390c6f2e2c7a2f75a02c3be06041448f17e949af931000fa355bf7cd2013eb3731d4f63118b2fb1b67377611f2160",
+      "name": "Fabian Melo",
+      "position": "Vigilante Recepcion",
+      "phone": "3108695994",
+      "active": true
+    },
+    {
+      "id": "staff_y_obando",
+      "username": "y.obando",
+      "passwordHash": "0c751e83655e642dacc88eab9e2b1ed8:02a294650768c499b99ce8d6433a4c4deea44eff073d5e43930cbbedc84d2154e01dc1e63d5f3e41f1c76fecb18f44296c3f335ca803faf4ea6a192c852bbbc3",
+      "name": "Yeison Obando",
+      "position": "Vigilante Recepcion",
+      "phone": "3108695994",
+      "active": true
+    },
+    {
+      "id": "staff_j_bernal",
+      "username": "j.bernal",
+      "passwordHash": "388c179b1ab4ff2a282e19da0674e09e:e0abe1fb742a2ff364c653a2f4f44340b8a200eb4434e529f7e98e41b103a92395c6361cdca75ffc31972f91e53553572dbcd349601a8da4a25997790fa65042",
+      "name": "Jorge Bernal",
+      "position": "Vigilante Recepcion",
+      "phone": "3108695994",
       "active": true
     }
   ],

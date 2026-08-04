@@ -44,7 +44,9 @@ npm test
 |-----|---------|------------|
 | Super Admin (desarrollador) | `admin` | `admin123` |
 | Administración | `administracionoporto` | `oporto123` |
-| Seguridad | `vigilante` | `vig123` |
+| Vigilante | `f.melo` | `melo123` |
+| Vigilante | `y.obando` | `obando123` |
+| Vigilante | `j.bernal` | `bernal123` |
 | Residente | `juan101` | `resident123` |
 
 ## Variables de entorno (`.env`)

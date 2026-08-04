@@ -88,9 +88,15 @@
     <!-- Main app -->
     <section id="main-view" class="view hidden">
       <header class="app-header">
-        <div>
-          <h1>Oporto Residencial</h1>
-          <p id="user-info"></p>
+        <div class="header-left">
+          <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Abrir menú" aria-controls="app-nav-drawer" aria-expanded="false">
+            <span class="nav-toggle-bars" aria-hidden="true"></span>
+          </button>
+          <div class="header-titles">
+            <h1>Oporto Residencial</h1>
+            <p id="user-info"></p>
+            <p id="mobile-section" class="mobile-section"></p>
+          </div>
         </div>
         <div class="header-actions">
           <div class="notif-wrap">
@@ -108,11 +114,17 @@
               </div>
             </div>
           </div>
-          <button id="logout-btn" class="btn btn-secondary">Cerrar sesión</button>
+          <button id="logout-btn" class="btn btn-secondary logout-btn">
+            <span class="logout-label-full">Cerrar sesión</span>
+            <span class="logout-label-short">Salir</span>
+          </button>
         </div>
       </header>
 
-      <nav id="admin-nav" class="tabs hidden">
+      <div id="nav-backdrop" class="nav-backdrop hidden" aria-hidden="true"></div>
+
+      <nav id="admin-nav" class="tabs hidden" aria-label="Menú administración">
+        <p class="nav-drawer-title">Menú</p>
         <button data-tab="residents" class="tab active">Residentes</button>
         <button data-tab="visits" class="tab">Visitas</button>
         <button data-tab="reservations" class="tab">Reservas</button>
@@ -125,14 +137,16 @@
         <button data-tab="correspondence-admin" class="tab">Correspondencia</button>
       </nav>
 
-      <nav id="resident-nav" class="tabs hidden">
+      <nav id="resident-nav" class="tabs hidden" aria-label="Menú residente">
+        <p class="nav-drawer-title">Menú</p>
         <button data-tab="res-visits" class="tab active">Mis Visitas</button>
         <button data-tab="res-reservations" class="tab">Mis Reservas</button>
         <button data-tab="res-correspondence" class="tab">Correspondencia Recibida</button>
         <button data-tab="res-announcements" class="tab">Anuncios</button>
       </nav>
 
-      <nav id="staff-nav" class="tabs hidden">
+      <nav id="staff-nav" class="tabs hidden" aria-label="Menú vigilante">
+        <p class="nav-drawer-title">Menú</p>
         <button data-tab="sec-announcements" class="tab active">Anuncios</button>
         <button data-tab="sec-visits" class="tab">Visitas</button>
         <button data-tab="sec-reservations" class="tab">Reservas</button>

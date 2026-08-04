@@ -105,14 +105,113 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: .75rem;
   padding: 1rem 1.5rem;
   background: var(--card);
   border-bottom: 1px solid var(--border);
   box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.app-header h1 { font-size: 1.25rem; }
-#user-info { color: var(--muted); font-size: .875rem; }
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.header-titles {
+  min-width: 0;
+}
+
+.app-header h1 {
+  font-size: 1.25rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#user-info {
+  color: var(--muted);
+  font-size: .875rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mobile-section {
+  display: none;
+  margin-top: .15rem;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.nav-toggle {
+  display: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.nav-toggle-bars,
+.nav-toggle-bars::before,
+.nav-toggle-bars::after {
+  display: block;
+  width: 1.1rem;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  position: relative;
+  transition: transform .2s ease, opacity .2s ease;
+}
+
+.nav-toggle-bars::before,
+.nav-toggle-bars::after {
+  content: '';
+  position: absolute;
+  left: 0;
+}
+
+.nav-toggle-bars::before { top: -.35rem; }
+.nav-toggle-bars::after { top: .35rem; }
+
+body.nav-open .nav-toggle-bars {
+  background: transparent;
+}
+
+body.nav-open .nav-toggle-bars::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+body.nav-open .nav-toggle-bars::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+.nav-backdrop {
+  display: none;
+}
+
+.nav-drawer-title {
+  display: none;
+}
+
+.logout-label-short {
+  display: none;
+}
 
 .header-actions {
   display: flex;
@@ -1494,8 +1593,249 @@ input.field-locked:disabled {
   }
 }
 
-@media (max-width: 600px) {
-  .app-header { flex-direction: column; gap: .75rem; align-items: flex-start; }
-  .tabs { padding: .5rem; }
-  #content { padding: 1rem; }
+/* ========== Mobile / tablet responsive ========== */
+@media (max-width: 900px) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .nav-drawer-title {
+    display: block;
+    margin: 0 0 .5rem;
+    padding: 0 .25rem;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, .45);
+    z-index: 1090;
+    border: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease;
+  }
+
+  body.nav-open .nav-backdrop:not(.hidden) {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .tabs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(18.5rem, 86vw);
+    max-width: 100%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: .35rem;
+    padding: 1.25rem 1rem 1.5rem;
+    margin: 0;
+    background: var(--card);
+    border-right: 1px solid var(--border);
+    border-bottom: none;
+    box-shadow: 8px 0 28px rgba(15, 23, 42, .16);
+    z-index: 1100;
+    overflow-y: auto;
+    transform: translateX(-105%);
+    transition: transform .22s ease;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body.nav-open .tabs:not(.hidden) {
+    transform: translateX(0);
+  }
+
+  .tab {
+    width: 100%;
+    text-align: left;
+    padding: .85rem 1rem;
+    font-size: .9375rem;
+  }
+
+  .app-header {
+    padding: .75rem 1rem;
+    align-items: center;
+  }
+
+  .app-header h1 {
+    font-size: 1.05rem;
+  }
+
+  #user-info {
+    font-size: .75rem;
+  }
+
+  .mobile-section {
+    display: block;
+  }
+
+  .logout-label-full {
+    display: none;
+  }
+
+  .logout-label-short {
+    display: inline;
+  }
+
+  #content {
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .card {
+    padding: 1rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .card h2 {
+    font-size: 1.05rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .toolbar input,
+  .toolbar select {
+    width: 100%;
+  }
+
+  table {
+    min-width: 36rem;
+  }
+
+  .unit-group .group-content,
+  .audit-group,
+  .shift-period,
+  .period-body {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .btn-group {
+    gap: .4rem;
+  }
+
+  .btn-group .btn {
+    flex: 1 1 auto;
+  }
+
+  .corr-card-header {
+    flex-wrap: wrap;
+  }
+
+  .modal {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .modal-card {
+    width: 100%;
+    max-width: 100%;
+    max-height: 92vh;
+    overflow-y: auto;
+    border-radius: 16px 16px 0 0;
+    padding: 1.1rem 1rem calc(1.1rem + env(safe-area-inset-bottom));
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .modal-actions .btn {
+    width: 100%;
+  }
+
+  #deliver-signature,
+  canvas.signature-canvas,
+  .signature-field canvas {
+    width: 100% !important;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .notif-panel {
+    position: fixed;
+    top: 3.75rem;
+    right: .75rem;
+    left: .75rem;
+    width: auto;
+    max-height: min(70vh, 24rem);
+  }
+
+  .login-card {
+    margin: 0;
+    max-width: none;
+    min-height: 100vh;
+    border-radius: 0;
+    padding: 1.5rem 1.15rem calc(1.5rem + env(safe-area-inset-bottom));
+    box-shadow: none;
+  }
+
+  .login-card h1 {
+    font-size: 1.5rem;
+  }
+
+  .password-gate-card {
+    min-height: 100vh;
+  }
+
+  body.nav-open {
+    overflow: hidden;
+  }
+
+  .search-results li {
+    flex-wrap: wrap;
+    gap: .5rem;
+  }
+
+  .period-meta,
+  .shift-period summary {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header h1 {
+    font-size: .98rem;
+  }
+
+  #content {
+    padding: .75rem;
+  }
+
+  .card {
+    padding: .85rem;
+    border-radius: 10px;
+  }
+
+  table {
+    min-width: 32rem;
+    font-size: .8125rem;
+  }
+
+  th, td {
+    padding: .45rem .55rem;
+  }
+
+  .cal-weekday,
+  .cal-day-num {
+    font-size: .7rem;
+  }
 }

@@ -240,6 +240,8 @@
       $$(`#${navId} .tab`).forEach((t) => t.classList.remove('active'));
       btn.classList.add('active');
     }
+    updateMobileSectionTitle(navId);
+    closeMobileNav();
     loader(tab);
   }
 
@@ -585,6 +587,7 @@
   $('#logout-btn').addEventListener('click', async () => {
     try { await api('POST', '/api/auth/logout'); } catch { /* ignore */ }
     await clearClientSession();
+    closeMobileNav();
     hide($('#password-gate-view'));
     hide($('#main-view'));
     show($('#login-view'));
@@ -767,6 +770,8 @@
 
     show($('#main-view'));
     $('#user-info').textContent = formatUserInfo(currentUser);
+    bindMobileNav();
+    closeMobileNav();
 
     hide($('#admin-nav'));
     hide($('#resident-nav'));
@@ -796,14 +801,64 @@
     }
   }
 
+  function closeMobileNav() {
+    document.body.classList.remove('nav-open');
+    const toggle = $('#nav-toggle');
+    const backdrop = $('#nav-backdrop');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    if (backdrop) hide(backdrop);
+  }
+
+  function openMobileNav() {
+    document.body.classList.add('nav-open');
+    const toggle = $('#nav-toggle');
+    const backdrop = $('#nav-backdrop');
+    if (toggle) toggle.setAttribute('aria-expanded', 'true');
+    if (backdrop) show(backdrop);
+  }
+
+  function toggleMobileNav() {
+    if (document.body.classList.contains('nav-open')) closeMobileNav();
+    else openMobileNav();
+  }
+
+  function updateMobileSectionTitle(navId) {
+    const el = $('#mobile-section');
+    if (!el) return;
+    const active = $(`#${navId} .tab.active`);
+    el.textContent = active ? active.textContent.trim() : '';
+  }
+
+  function bindMobileNav() {
+    const toggle = $('#nav-toggle');
+    const backdrop = $('#nav-backdrop');
+    if (toggle && !toggle.dataset.bound) {
+      toggle.dataset.bound = '1';
+      toggle.addEventListener('click', toggleMobileNav);
+    }
+    if (backdrop && !backdrop.dataset.bound) {
+      backdrop.dataset.bound = '1';
+      backdrop.addEventListener('click', closeMobileNav);
+    }
+    if (!document.body.dataset.navEscBound) {
+      document.body.dataset.navEscBound = '1';
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMobileNav();
+      });
+    }
+  }
+
   function initTabs(navId, loadFn) {
     $$(`#${navId} .tab`).forEach((tab) => {
       tab.onclick = () => {
         $$(`#${navId} .tab`).forEach((t) => t.classList.remove('active'));
         tab.classList.add('active');
+        updateMobileSectionTitle(navId);
+        closeMobileNav();
         loadFn(tab.dataset.tab);
       };
     });
+    updateMobileSectionTitle(navId);
   }
 
   function initAdminTabs() { initTabs('admin-nav', loadAdminPanel); }

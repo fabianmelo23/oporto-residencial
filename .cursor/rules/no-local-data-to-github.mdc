@@ -1,25 +1,42 @@
 ---
-description: Never upload local generated app data to GitHub
+description: Never upload local or production operational data to GitHub
 alwaysApply: true
 ---
 
-# No local data on GitHub
+# No operational data on GitHub
 
-Operational data generated while using the app locally must never be pushed to GitHub.
+Repo destino: `fabianmelo23/oporto-residencial`  
+Producción: `https://oporto-residencial-production.up.railway.app` (data en Volume Railway)
+
+When the user asks to commit / push / sync to GitHub: upload **code changes only**.  
+**NADA** de data operativa — ni local ni de producción. NADA significa NADA.
+
+## Tres universos de data (nunca mezclar)
+
+| Universo | Dónde vive | ¿Va a GitHub? |
+|----------|------------|---------------|
+| Local | `data/database.local.json` | **NUNCA** |
+| Producción Railway | Volume `/data/database.json` | **NUNCA** |
+| Seed template | `data/database.json` | Solo si el usuario pide explícitamente cambiar el **template vacío/demo**, nunca un dump |
 
 ## Do not
 
-- Copy `data/database.local.json` (or any runtime DB) into `data/database.json`
-- Commit `database.local.json`, `database.demo.json`, `database.wipe.json`, or similar runtime files
-- Sync residents, visits, reservations, correspondence, payments, audit logs, notifications, or photos from local into the repo
-- “Update the seed with my current local data” unless the user **explicitly** asks to change the seed template itself
+- Commit / stage / push `database.local.json`, `database.demo.json`, `database.wipe.json`, `test-database.local.json`, o cualquier `data/database.*.json` runtime
+- Copy local DB → `data/database.json` “para sincronizar”
+- Copy Railway volume / production dump → `data/database.json` o al repo
+- Sync residents, visits, reservations, correspondence, payments, audit logs, notifications, photos, signatures from local or Railway into GitHub
+- “Update the seed with my current local/production data” unless the user **explicitly** asks to change the seed **template** itself (not a dump)
 
-## Allowed
+## Allowed in commits
 
-- Keep using and editing `data/database.local.json` locally (it is gitignored)
-- Change code, UI, tests, and `data/database.test-seed.json` for automated tests
-- Change `data/database.json` only when the user explicitly asks to update the **empty/demo seed template** (not a dump of their live local DB)
+- `src/`, `public/`, `test/`, `docs/`, `.cursor/`, `package.json`, `package-lock.json`, `server.js`, `.gitignore`, `.env.example`, README
+- `data/database.test-seed.json` only for automated tests
+- `data/database.json` only when the user explicitly asks to edit the empty/demo seed template
 
-## If unsure
+## Before every commit / push
 
-Ask the user before touching `data/database.json`. Prefer leaving local data only on the machine / Railway volume.
+1. Review `git status` and `git diff --cached`
+2. Abort if any runtime DB, `.env`, photos/signatures dump, or production data appears staged
+3. If unsure about `data/database.json` → **ask the user first**
+
+Prefer leaving operational data only on the machine (local) or the Railway volume (production).

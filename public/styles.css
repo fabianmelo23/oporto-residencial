@@ -432,11 +432,14 @@ body.nav-open .nav-toggle-bars::after {
 /* Tabs */
 .tabs {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: .25rem;
   padding: .75rem 1.5rem;
   background: var(--card);
   border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
 }
 
 .tab {
@@ -446,24 +449,38 @@ body.nav-open .nav-toggle-bars::after {
   border-radius: var(--radius);
   cursor: pointer;
   font-size: .875rem;
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .tab:hover { background: var(--hover); }
 .tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-/* Content */
-#content { padding: 1.5rem; max-width: 1200px; margin: 0 auto; }
+/* Content
+   width:100% is required: #main-view is a column flex container and #content uses
+   margin:auto — without an explicit width, auto margins shrink the flex item to
+   content size (~490px) on desktop while mobile already forces width:100%. */
+#content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
 
 .panel { display: none; }
 .panel.active { display: block; }
 
 .card {
+  width: 100%;
+  max-width: 100%;
   background: var(--card);
   border-radius: var(--radius);
   padding: 1.25rem;
   margin-bottom: 1rem;
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
+  overflow-x: auto;
 }
 
 .card h2 { font-size: 1.125rem; margin-bottom: 1rem; }
@@ -2279,11 +2296,15 @@ html[data-theme="dark"] .theme-icon-light {
 #main-view {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   min-height: 100vh;
 }
 
 #main-view #content {
-  flex: 1;
+  flex: 1 1 auto;
+  align-self: center;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .app-footer {
